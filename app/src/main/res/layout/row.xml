@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/container_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="7dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="6dp"
+        tools:targetApi="lollipop">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textout"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="4dp"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="2dp"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:id="@+id/remove"
+                android:layout_width="24dp"
+                android:layout_height="23dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="43dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toEndOf="@+id/textout"
+                android:layout_toRightOf="@id/textin"
+                android:background="@drawable/lightorange_circle_button"
+                android:text="@string/remove"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                tools:ignore="DuplicateIds,NotSibling" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

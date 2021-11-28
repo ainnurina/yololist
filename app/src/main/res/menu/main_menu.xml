@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home_icon"
+            android:title="Home" />
+
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/profile_icon"
+            android:title="Profile" />
+
+        <item
+            android:id="@+id/nav_archive"
+            android:icon="@drawable/archive_icon"
+            android:title="Archive" />
+
+    </group>
+
+
+    <item android:title="Authentication">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_login"
+                    android:icon="@drawable/login_icon"
+                    android:title="Login" />
+
+                <item
+                    android:id="@+id/nav_signup"
+                    android:icon="@drawable/signup_icon"
+                    android:title="Sign up" />
+
+                <item
+                    android:id="@+id/nav_logout"
+                    android:title="Logout"
+                    android:icon="@drawable/signup_icon"/> <!--cari logout icon-->
+            </group>
+        </menu>
+    </item>
+
+</menu>
