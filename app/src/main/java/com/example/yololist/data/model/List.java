@@ -1,21 +1,24 @@
 package com.example.yololist.data.model;
 
+import com.google.firebase.Timestamp;
+
 public class List {
     private String listid;
     private String title;
-    private String date;
+    private Timestamp timeAdded;
     private int totitem;
+    private String userId;
 
 
     public List()   {
         super();
     }
 
-    public List(String listid, String title, String date)   {
+    public List(String listid, String title, Timestamp timeAdded)   {
         super();
         this.listid = listid;
         this.title = title;
-        this.date = date;
+        this.timeAdded = timeAdded;
     }
 
     public String getListid() {
@@ -42,11 +45,19 @@ public class List {
         this.totitem = totitem;
     }
 
-    public String getDate() {
-        return date;
+    public Timestamp getTimeAdded() {
+        return timeAdded;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setTimeAdded(Timestamp timeAdded) {
+        this.timeAdded = timeAdded;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
