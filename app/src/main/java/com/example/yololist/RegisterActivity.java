@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.yololist.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,8 +33,8 @@ import java.util.Objects;
 import util.YololistApi;
 
 public class RegisterActivity extends AppCompatActivity {
-    private Button loginButton;
     private Button createAcctButton;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser currentUser;
@@ -46,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private ProgressBar progressBar;
     private EditText userNameEditText;
+    private EditText confirmpasswordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.email_account);
         passwordEditText = findViewById(R.id.password_account);
         userNameEditText = findViewById(R.id.username_account);
+        confirmpasswordEditText = findViewById(R.id.confirmpassword);
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -75,6 +79,27 @@ public class RegisterActivity extends AppCompatActivity {
                 createAcctButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        if(!Patterns.EMAIL_ADDRESS.matcher(emailEditText.getText().toString().trim()).matches())
+                        {
+                            emailEditText.setError("Enter the valid email address");
+                            emailEditText.requestFocus();
+                            return;
+                        }
+
+                        if (passwordEditText.getText().toString().trim().length()<6)    {
+                            passwordEditText.setError("Length of the password should be more than 6");
+                            passwordEditText.requestFocus();
+                            return;
+                        }
+
+                        if (!(passwordEditText.getText().toString().trim().equals(confirmpasswordEditText.getText().toString().trim()))) {
+                            passwordEditText.setError("Password and confirm password not equivalent");
+                            passwordEditText.requestFocus();
+                            return;
+
+                        }
+
                         if  (!TextUtils.isEmpty(emailEditText.getText().toString())
                                 && !TextUtils.isEmpty(passwordEditText.getText().toString())
                                 && !TextUtils.isEmpty(userNameEditText.getText().toString())) {
@@ -89,12 +114,14 @@ public class RegisterActivity extends AppCompatActivity {
                                     "Empty Fields Not Allowed",
                                     Toast.LENGTH_LONG)
                                     .show();
+                            return;
                         }
 
 
 
                     }
                 });
+
             }
 
             private void createUserEmailAccount(String email, String password, String username) {
@@ -116,8 +143,9 @@ public class RegisterActivity extends AppCompatActivity {
                                         Map<String, String> userObj = new HashMap<>();
                                         userObj.put("userId", currentUserId);
                                         userObj.put("username", username);
+                                        //userObj.put("password", password)
 
-                                        //save to our firestore database
+                                        //save ato our firestore database
                                         collectionReference.add(userObj)
                                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                     @Override
@@ -136,7 +164,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                                             yololistApi.setUsername(name);
 
                                                                             Intent intent = new Intent(RegisterActivity.this,
-                                                                                    PostYololistActivity.class);
+                                                                                    LoginActivity.class);
                                                                             intent.putExtra("username", name);
                                                                             intent.putExtra("userId", currentUserId);
                                                                             startActivity(intent);

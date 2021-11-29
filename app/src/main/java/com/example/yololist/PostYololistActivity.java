@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 
 import com.example.yololist.data.model.List;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -21,13 +22,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ import java.util.Map;
 
 import util.YololistApi;
 
-public class PostYololistActivity extends AppCompatActivity {
+public class PostYololistActivity extends AppCompatActivity implements OnClickListener {
 
     private static final String TAG = "PostYololistActivity";
     private Button saveButton;
@@ -69,6 +69,7 @@ public class PostYololistActivity extends AppCompatActivity {
 
         textIn = findViewById(R.id.textin);
         saveButton = findViewById(R.id.post_saveButton);
+        saveButton.setOnClickListener(this);
         buttonAdd = findViewById(R.id.post_add_new_item);
         container = findViewById(R.id.container_item);
 
@@ -113,23 +114,20 @@ public class PostYololistActivity extends AppCompatActivity {
         };
 
     }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId())  {
             case R.id.post_saveButton:
-                //saveList
                 saveList();
                 break;
         }
     }
 
+
+
     private void saveList() {
         String title = list_title.getText().toString().trim();
-
-        /*--date--*/
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        Map map = new HashMap();
-        map.put("timestamp", ServerValue.TIMESTAMP);
-        ref.child("yourNode").updateChildren(map);
 
         /*--Loop item--*/
         //count total item & pass at new collection
