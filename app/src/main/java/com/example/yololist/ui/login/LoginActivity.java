@@ -1,3 +1,5 @@
+//LOGIN activity
+
 package com.example.yololist.ui.login;
 
 import android.content.Intent;
@@ -7,7 +9,6 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,6 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yololist.MainActivity;
-import com.example.yololist.PostYololistActivity;
 import com.example.yololist.R;
 import com.example.yololist.RegisterActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import util.YololistApi;
 
+
 public class LoginActivity extends AppCompatActivity {
 
     private Button loginButton;
@@ -42,8 +43,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
 
     private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
-    private FirebaseUser currentUser;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = db.collection("Users");
