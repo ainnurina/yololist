@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //variables
     DrawerLayout drawerlayout;
     NavigationView navigationView;
+    Button addlistbutton;
     Toolbar toolbar;
 
-    private Button addlistbutton;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth mAuth;
 
@@ -40,26 +40,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (mAuth.getCurrentUser() != null) {
             setContentView(R.layout.activity_main);
+
+
         } else {
 
-            Toast.makeText(MainActivity.this, "Not log in yet",
-                    Toast.LENGTH_LONG).show();
+            //Toast.makeText(MainActivity.this, "Not log in yet",  Toast.LENGTH_LONG).show();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
 
-
-        /*--------Add new list-----*/
-        addlistbutton = findViewById(R.id.add_list_button);
+        addlistbutton = (Button)findViewById(R.id.button_add_list2);
 
         addlistbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, PostYololistActivity.class));
+                Intent intent = new Intent(MainActivity.this, PostYololistActivity.class);
+                startActivity(intent);
             }
         });
-
 
         /*----------Hooks------------*/
         drawerlayout = findViewById(R.id.drawer_layout);
@@ -94,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
+
     }
 
     @Override

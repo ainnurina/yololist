@@ -5,6 +5,8 @@ package com.example.yololist.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yololist.MainActivity;
+import com.example.yololist.PostYololistActivity;
 import com.example.yololist.R;
 import com.example.yololist.RegisterActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +28,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,15 +42,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import util.YololistApi;
 
+import static android.content.ContentValues.TAG;
 
-public class LoginActivity extends AppCompatActivity {
+
+public class LoginActivity<mDatabaseReference> extends AppCompatActivity {
 
     private Button loginButton;
     private Button createAcctButton;
     private AutoCompleteTextView emailAddress;
-    private EditText password;
+    private EditText passwordText;
 
     private FirebaseAuth firebaseAuth;
+    private DatabaseReference mDatabaseReference;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = db.collection("Users");
@@ -56,13 +67,15 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         emailAddress = findViewById(R.id.email);
-        password = findViewById(R.id.password);
+        passwordText = findViewById(R.id.password);
 
 
         loginButton = findViewById(R.id.email_sign_in_button);
         createAcctButton = findViewById(R.id.create_acct_button);
 
-        createAcctButton.setOnClickListener(new View.OnClickListener(){
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        createAcctButton.setOnClickListener(new View.OnClickListener() {
             @Override
 
             public void onClick(View v) {
@@ -73,8 +86,32 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginEmailPasswordUser(emailAddress.getText().toString().trim(),
-                        password.getText().toString().trim());
+
+                String email2 = emailAddress.getText().toString().trim();
+                String password2 = passwordText.getText().toString().trim();
+                if (email2.isEmpty()) {
+                    emailAddress.setError("Email is empty");
+                    emailAddress.requestFocus();
+                    return;
+                }
+                if (!Patterns.EMAIL_ADDRESS.matcher(email2).matches()) {
+                    emailAddress.setError("Enter the valid email");
+                    emailAddress.requestFocus();
+                    return;
+                }
+                if (password2.isEmpty()) {
+                    passwordText.setError("Password is empty");
+                    passwordText.requestFocus();
+                    return;
+                }
+                if (password2.length() < 6) {
+                    passwordText.setError("Length of password is more than 6");
+                    passwordText.requestFocus();
+                    return;
+                }
+
+                    loginEmailPasswordUser(email2, password2);
+
             }
 
             private void loginEmailPasswordUser(String email, String pwd) {
@@ -86,68 +123,66 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                                    assert user != null;
-                                    String currentUserId = user.getUid();
+                                    if (!task.isSuccessful()) {
 
-                                    collectionReference
-                                            .whereEqualTo("userId", currentUserId)
-                                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
-                                                                    @Nullable FirebaseFirestoreException e) {
+                                        Log.e(TAG, "Sign-in Failed: " + task.getException().getMessage());
+                                        // Or if you don't use Log:
+                                        // System.out.println("Sign-in Failed: " + task.getException().getMessage());
+                                        Toast.makeText(LoginActivity.this, "Error Login", Toast.LENGTH_LONG).show();
 
-                                                    if (e != null)  {
+                                    } else {
 
-                                                    }
-                                                    assert queryDocumentSnapshots != null;
-                                                    if (!queryDocumentSnapshots.isEmpty())  {
+                                        CheckUserExists();
 
-                                                        for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots)   {
+                                    }
 
-                                                            YololistApi yololistApi = YololistApi.getInstance();
-                                                            yololistApi.setUsername(snapshot.getString("username"));
-                                                            yololistApi.setUserId(snapshot.getString("userId"));
-
-                                                            //Go to ListActivity
-                                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                                            finish();
-
-                                                        }
-
-
-                                                    }
-
-                                                }
-                                            });
-
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
 
                                 }
                             });
 
-                }else {
-                    Toast.makeText(LoginActivity.this,
-                            "Please enter email and password",
-                            Toast.LENGTH_LONG)
-                            .show();
                 }
             }
         });
     }
 
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
 
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-    }
+    private void CheckUserExists() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user == null) {
+            throw new AssertionError();
+        }
+        String currentUserId = user.getUid();
 
-    private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+        collectionReference
+                .whereEqualTo("userId", currentUserId)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                        @Nullable FirebaseFirestoreException e) {
+
+                        if (e != null)  {
+
+                        }
+                        assert queryDocumentSnapshots != null;
+                        if (!queryDocumentSnapshots.isEmpty())  {
+
+                            for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots)   {
+
+                                YololistApi yololistApi = YololistApi.getInstance();
+                                yololistApi.setUsername(snapshot.getString("username"));
+                                yololistApi.setUserId(snapshot.getString("userId"));
+
+
+                                //Go to ListActivity
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+
+                            }
+
+
+                        }
+
+                    }
+                });
     }
 }

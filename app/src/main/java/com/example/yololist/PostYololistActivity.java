@@ -44,8 +44,6 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     private EditText textIn;
     private LinearLayout container;
 
-    private String currentUserId;
-    private String currentUserName;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -96,10 +94,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
         });
 
 
-        if (YololistApi.getInstance() != null) {
-            currentUserId = YololistApi.getInstance().getUserId();
-            currentUserName = YololistApi.getInstance().getUsername();
-        }
+
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -117,16 +112,20 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())  {
-            case R.id.post_saveButton:
-                saveList();
-                break;
+
+        if (YololistApi.getInstance() != null) {
+            String currentUserId = YololistApi.getInstance().getUserId();
+            String currentUserName = YololistApi.getInstance().getUsername();
+
+            if (v.getId() == R.id.post_saveButton)  {
+                saveList(currentUserId);
+            }
         }
     }
 
 
 
-    private void saveList() {
+    private void saveList(String currentUserId) {
         String title = list_title.getText().toString().trim();
 
         /*--Loop item--*/
