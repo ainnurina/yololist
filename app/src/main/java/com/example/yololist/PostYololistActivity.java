@@ -16,12 +16,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
+import com.example.yololist.data.model.Items;
 import com.example.yololist.data.model.List;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,6 +45,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     private Button buttonAdd;
     private EditText list_title;
     private EditText textIn;
+    private TextView textOut;
     private LinearLayout container;
 
 
@@ -53,9 +57,11 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private StorageReference storageReference;
 
-    private CollectionReference collectionReference = db.collection("List");
+    private CollectionReference collectionReferenceL = db.collection("List");
+    private CollectionReference collectionReferenceI = db.collection("Items");
 
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
 
         firebaseAuth = FirebaseAuth.getInstance();
         list_title = findViewById(R.id.post_list_title);
+        textOut = findViewById(R.id.textout); //nnt buat loop
         //currentUserTextView = findViewById(R.id.post_username_textview);
 
         textIn = findViewById(R.id.textin);
@@ -70,6 +77,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
         saveButton.setOnClickListener(this);
         buttonAdd = findViewById(R.id.post_add_new_item);
         container = findViewById(R.id.container_item);
+
 
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +123,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
 
         if (YololistApi.getInstance() != null) {
             String currentUserId = YololistApi.getInstance().getUserId();
-            String currentUserName = YololistApi.getInstance().getUsername();
+            //String currentUserName = YololistApi.getInstance().getUsername();
 
             if (v.getId() == R.id.post_saveButton)  {
                 saveList(currentUserId);
@@ -134,18 +142,59 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
 
         if (!TextUtils.isEmpty(title)) {
             List list = new List();
+
+            /*----
+            const racesCollection: AngularFirestoreCollection<Race>;
+            return racesCollection.snapshotChanges().map(actions => {
+            return actions.map(a => {
+            const data = a.payload.doc.data() as Race;
+            data.id = a.payload.doc.id;
+            return data;
+              });
+            });
+            ---*/
+
             list.setTitle(title);
             list.setTotitem(totitem);
             list.setTimeAdded(new Timestamp(new Date()));
             list.setUserId(currentUserId);
-
             //invoke collectionReference
-            collectionReference.add(list)
+            collectionReferenceL.add(list)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
+                    
+                       @Override
                         public void onSuccess(DocumentReference documentReference) {
-                            startActivity(new Intent(PostYololistActivity.this, YoloListActivity.class));
-                            finish();
+
+                            //String itemName  = textOut.getText().toString().trim();
+
+                            //insert loop data item into database
+                                Items item = new Items();
+                                item.setItemName(title);
+                                item.isItemchecked("false");
+
+                                //dptkan document id list
+                                DocumentReference document = db.collection("list").document(title);
+                                item.setListid(document.getId());
+
+                                collectionReferenceI.add(item)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                startActivity(new Intent(PostYololistActivity.this, YoloListActivity.class));
+                                                finish();
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                                Log.d(TAG, "onFailure: " + e.getMessage());
+
+                                            }
+                                        });
+
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
