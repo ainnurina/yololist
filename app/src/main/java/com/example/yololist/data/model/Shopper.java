@@ -5,9 +5,13 @@ package com.example.yololist.data.model;
  */
 public class Shopper {
 
+    public String userName;
+    public String email;
     private String userId;
-    private String userName;
-    private String email;
+    //private String userName;
+    //private String email;
+
+    public Shopper(){}
 
     public Shopper(String userId, String userName, String email) {
         this.userId = userId;

@@ -43,8 +43,8 @@ public class userprofile extends AppCompatActivity {
                 Shopper userProfile = snapshot.getValue(Shopper.class);
 
                 if (userProfile != null)    {
-                    String fullName = userProfile.getUserName();
-                    String email = userProfile.getEmail();
+                    String fullName = userProfile.userName;
+                    String email = userProfile.email;
                     String age = "nononononino";
 
                     fullNameTextView.setText(fullName);

@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Menu menu = navigationView.getMenu();
         //menu.findItem(R.id.nav_logout).setVisible(false);
-        menu.findItem(R.id.nav_profile).setVisible(false);
+        //menu.findItem(R.id.nav_profile).setVisible(false);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
