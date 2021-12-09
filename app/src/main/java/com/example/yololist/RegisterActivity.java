@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.create_acct_progress);
         emailEditText = findViewById(R.id.email_account);
         passwordEditText = findViewById(R.id.password_account);
-        userNameEditText = findViewById(R.id.username_account);
+        userNameEditText = findViewById(R.id.profileEmail);
         confirmpasswordEditText = findViewById(R.id.confirmpassword);
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -143,6 +143,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         Map<String, String> userObj = new HashMap<>();
                                         userObj.put("userId", currentUserId);
                                         userObj.put("username", username);
+                                        userObj.put("email", email);
                                         //userObj.put("password", password)
 
                                         //save ato our firestore database

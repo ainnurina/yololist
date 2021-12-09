@@ -1,48 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".userprofile">
+    tools:context=".RegisterActivity">
 
     <LinearLayout
+        android:id="@+id/acct_login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/emailAddressTitle"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="173dp"
+            android:background="@color/orange_700">
+
+        </FrameLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email Address" />
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="36.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@color/orange_200">
 
-        <TextView
-            android:id="@+id/emailAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <!--Input-->
+            <TextView
+                android:id="@+id/profileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/name_icon"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/poppins"
+                android:selectAllOnFocus="true"
+                android:maxLines="1"
+                android:paddingLeft="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textSize="12sp"/>
 
-        <TextView
-            android:id="@+id/fullNameTitle"
+            <!--Icon-->
+            <ImageView
+                android:id="@+id/name_icon"
+                android:layout_width="14.7dp"
+                android:layout_height="10.3dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/profile_icon"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Full Name:" />
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="36.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@color/orange_200">
 
-        <TextView
-            android:id="@+id/fullName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <!--Input-->
+            <TextView
+                android:id="@+id/profileEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/poppins"
+                android:selectAllOnFocus="true"
+                android:maxLines="1"
+                android:paddingLeft="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textSize="12sp"/>
 
-        <TextView
-            android:id="@+id/ageTitle"
+            <!--Icon-->
+            <ImageView
+                android:layout_width="14.7dp"
+                android:layout_height="10.3dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/profile_icon"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Age:" />
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="36.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@color/orange_200">
 
-        <TextView
-            android:id="@+id/age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <!--Input-->
+            <TextView
+                android:id="@+id/profilePhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/name_icon"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/poppins"
+                android:selectAllOnFocus="true"
+                android:maxLines="1"
+                android:paddingLeft="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textSize="12sp"/>
+
+            <!--Icon-->
+            <ImageView
+                android:layout_width="14.7dp"
+                android:layout_height="10.3dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/profile_icon"/>
+
+        </RelativeLayout>
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>

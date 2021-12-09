@@ -68,7 +68,7 @@
 
             <!--Input-->
             <EditText
-                android:id="@+id/username_account"
+                android:id="@+id/profileEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/name_icon"

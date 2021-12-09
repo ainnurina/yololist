@@ -45,7 +45,8 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     private Button buttonAdd;
     private EditText list_title;
     private EditText textIn;
-    private TextView textOut;
+    private TextView[] textOut;
+    private int count = 1;
     private LinearLayout container;
 
 
@@ -69,7 +70,6 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
 
         firebaseAuth = FirebaseAuth.getInstance();
         list_title = findViewById(R.id.post_list_title);
-        textOut = findViewById(R.id.textout); //nnt buat loop
         //currentUserTextView = findViewById(R.id.post_username_textview);
 
         textIn = findViewById(R.id.textin);
@@ -85,8 +85,13 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
             public void onClick(View view) {
                 LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 final View addView = layoutInflater.inflate(R.layout.row, null);
-                TextView textOut = addView.findViewById(R.id.textout);
-                textOut.setText(textIn.getText().toString());
+                
+                for (int i = 0; i < count; i++) {
+                    textOut[i] = addView.findViewById(R.id.textout); //set data dlm loop ni
+                    textOut[i].setText(textIn.getText().toString());
+                    count++;
+                }
+                
 
                 Button buttonRemove = (Button) addView.findViewById(R.id.remove);
                 buttonRemove.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +159,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
             });
             ---*/
 
+            
             list.setTitle(title);
             list.setTotitem(totitem);
             list.setTimeAdded(new Timestamp(new Date()));
@@ -165,36 +171,37 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
                        @Override
                         public void onSuccess(DocumentReference documentReference) {
 
-                            //String itemName  = textOut.getText().toString().trim();
+                           int keycount = count;
 
-                            //insert loop data item into database
-                                Items item = new Items();
-                                item.setItemName(title);
-                                item.isItemchecked("false");
+                           for (int i = 0; i < keycount; i++) {
+                               String itemName = textOut[i].getText().toString().trim();
 
-                                //dptkan document id list
-                                DocumentReference document = db.collection("list").document(title);
-                                item.setListid(document.getId());
+                               Items item = new Items();
+                               item.setItemName(itemName);
+                               item.isItemchecked("false");
 
-                                collectionReferenceI.add(item)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                startActivity(new Intent(PostYololistActivity.this, YoloListActivity.class));
-                                                finish();
+                               //dptkan document id list
+                               DocumentReference document = db.collection("list").document(title);
+                               item.setListid(document.getId());
 
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
+                               collectionReferenceI.add(item)
+                                       .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                           @Override
+                                           public void onSuccess(DocumentReference documentReference) {
+                                               startActivity(new Intent(PostYololistActivity.this, YoloListActivity.class));
+                                               finish();
 
-                                                Log.d(TAG, "onFailure: " + e.getMessage());
+                                           }
+                                       })
+                                       .addOnFailureListener(new OnFailureListener() {
+                                           @Override
+                                           public void onFailure(@NonNull Exception e) {
 
-                                            }
-                                        });
+                                               Log.d(TAG, "onFailure: " + e.getMessage());
 
-
+                                           }
+                                       });
+                           }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
