@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="8dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/list_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="55dp"
+            android:layout_marginBottom="4dp"
+            android:text="Groceries Shopping"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="2dp" />
+
+        <TextView
+            android:id="@+id/items_qty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="55dp"
+            android:text="11 items"
+            android:textSize="16sp"
+            tools:layout_editor_absoluteX="2dp" />
+
+        <TextView
+            android:id="@+id/dateadded"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="55dp"
+            android:text="created on: 12/11/2021"
+            android:textSize="14sp"
+            tools:layout_editor_absoluteX="2dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

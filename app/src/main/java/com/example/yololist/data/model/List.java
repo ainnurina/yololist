@@ -45,7 +45,7 @@ public class List {
         this.totitem = totitem;
     }
 
-    public Timestamp getTimeAdded() {
+    public int getTimeAdded() {
         return timeAdded;
     }
 

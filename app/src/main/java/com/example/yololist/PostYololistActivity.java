@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import com.example.yololist.data.model.Items;
 import com.example.yololist.data.model.List;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import util.YololistApi;
 
@@ -48,10 +50,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     private EditText list_title;
     private EditText textIn;
     private LinearLayout container;
-    private String[] iteminput = new String[]{};
-    private int count = 0;
     private TextView textOut;
-    private int key = 0;
 
 
     private FirebaseAuth firebaseAuth;
@@ -82,6 +81,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
         container = findViewById(R.id.container_item);
 
 
+
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,16 +92,27 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
                 textOut.setText(textIn.getText().toString());
                 values.add(textIn.getText().toString());
 
+
                 Button buttonRemove = (Button) addView.findViewById(R.id.remove);
                 View finalAddView = addView;
+                String tempS = textOut.getText().toString().trim();
+                //String name = textIn.getText().toString().trim();
                 buttonRemove.setOnClickListener(new View.OnClickListener() {
+
 
                     @Override
                     public void onClick(View v) {
-                        ((LinearLayout) finalAddView.getParent()).removeView(finalAddView);
+
+                        for (int i = 0; i <values.size(); i++) {
+                            if ((tempS).equals(values.get(i))) {
+                                values.remove(i);
+                                ((LinearLayout) finalAddView.getParent()).removeView(finalAddView);
+                                break;
+                            }
+                        }
+
                     }
                 });
-                count++;
 
                 container.addView(addView);
             }
@@ -146,9 +157,10 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
         if (!TextUtils.isEmpty(title)) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("List");
 
+
             String key = reference.push().getKey();
             List list = new List();
-            list.setListid("789");
+            list.setListid(key);
             list.setTitle(title);
             list.setTotitem(values.size());
             list.setTimeAdded(new Timestamp(new Date()));
@@ -164,23 +176,27 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
                             String[] itemName = new String[0];
 
                             for (int i = 0; i < values.size(); i++) {
+                                DatabaseReference referenceI = FirebaseDatabase.getInstance().getReference().child("Items");
+
+
+                                String keyItem = referenceI.push().getKey();
                                 //itemName[i] = textOut.getText().toString().trim();
 
                                 Items item = new Items();
+                                item.setItemid(keyItem);
                                 item.setItemName(values.get(i));
                                 //item.setItemName(itemName);
                                 item.isItemchecked("false");
 
-                                //dptkan document id list
-                                DocumentReference document = db.collection("list").document(title);
-                                item.setListid(document.getId());
+
+                                item.setListid(key);
 
                                 collectionReferenceI.add(item)
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
-                                                startActivity(new Intent(PostYololistActivity.this, YoloListActivity.class));
-                                                finish();
+                                                Toast.makeText(PostYololistActivity.this, "List has been added", Toast.LENGTH_SHORT).show();
+
 
                                             }
                                         })
@@ -194,6 +210,10 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
                                         });
 
                             }
+
+                            //ltk sini
+                            startActivity(new Intent(PostYololistActivity.this, YoloListActivity.class)); // mcm mana nk bg dia show sekali je
+                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

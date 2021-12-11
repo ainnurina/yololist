@@ -493,6 +493,18 @@
 
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_constraint" />
+
+            <TextView
+                android:id="@+id/list_no_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_data_hint"
+                android:visibility="invisible" />
         </LinearLayout>
     </ScrollView>
 
