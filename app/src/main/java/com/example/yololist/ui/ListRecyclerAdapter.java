@@ -1,6 +1,8 @@
 package com.example.yololist.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yololist.R;
 
 import com.example.yololist.data.model.List;
+
 
 public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.ViewHolder> {
 
@@ -33,13 +36,18 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         return new ViewHolder(view, context);
     }
 
+
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ListRecyclerAdapter.ViewHolder viewHolder, int position) {
 
         List list = allList.get(position);
         viewHolder.title.setText(list.getTitle());
-        viewHolder.itemqty.setText(list.getTotitem());
-        //viewHolder.dateAdded.setText(list.getTimeAdded());
+        viewHolder.itemqty.setText(""+list.getTotitem()+" items");
+
+        String timeAgo = (String) DateUtils.getRelativeTimeSpanString(list.getTimeAdded().getSeconds()*1000);
+
+        viewHolder.dateAdded.setText(timeAgo);
 
 
     }
@@ -64,5 +72,8 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
             dateAdded = itemView.findViewById(R.id.dateadded);
 
         }
+
     }
+
+
 }

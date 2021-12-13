@@ -1,50 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_rowWeight="1"
+    android:layout_columnWeight="1"
     android:layout_margin="5dp"
-    app:cardCornerRadius="8dp"
-    android:layout_height="wrap_content">
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="6dp"
+    tools:targetApi="lollipop">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="15dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/list_title"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="55dp"
-            android:layout_marginBottom="4dp"
-            android:text="Groceries Shopping"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="2dp" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="2dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/items_qty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="55dp"
-            android:text="11 items"
-            android:textSize="16sp"
-            tools:layout_editor_absoluteX="2dp" />
+            <TextView
+                android:id="@+id/list_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="55dp"
+                android:layout_marginBottom="4dp"
+                android:text="Groceries Shopping"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="2dp" />
 
-        <TextView
-            android:id="@+id/dateadded"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="55dp"
-            android:text="created on: 12/11/2021"
-            android:textSize="14sp"
-            tools:layout_editor_absoluteX="2dp" />
+            <TextView
+                android:id="@+id/items_qty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="55dp"
+                android:layout_marginBottom="4dp"
+                android:text="11 items"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="2dp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/dateadded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="55dp"
+                android:text="created on: 12/11/2021"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="2dp" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="49dp"
+            android:layout_marginEnd="14dp"
+            android:background="@drawable/lightorange_circle_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:layout_width="14dp"
+                android:layout_height="3dp"
+                android:background="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
+
 
 </androidx.cardview.widget.CardView>

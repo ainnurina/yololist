@@ -2,6 +2,7 @@ package com.example.yololist;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.yololist.data.model.Items;
 import com.example.yololist.data.model.List;
+import com.example.yololist.ui.ListRecyclerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -60,6 +62,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     //Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private StorageReference storageReference;
+
 
     private CollectionReference collectionReference = db.collection("List");
     private CollectionReference collectionReferenceI = db.collection("Items");
@@ -186,7 +189,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
                                 item.setItemid(keyItem);
                                 item.setItemName(values.get(i));
                                 //item.setItemName(itemName);
-                                item.isItemchecked("false");
+                                item.isItemchecked(false);
 
 
                                 item.setListid(key);

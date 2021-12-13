@@ -42,7 +42,7 @@ public class Items {
         this.listid = listid;
     }
 
-    public boolean isItemchecked(String aFalse) {
+    public boolean isItemchecked(boolean aFalse) {
         return itemchecked;
     }
 

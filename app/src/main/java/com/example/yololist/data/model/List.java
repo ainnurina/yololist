@@ -8,6 +8,7 @@ public class List {
     private Timestamp timeAdded;
     private int totitem;
     private String userId;
+    private String uid;
 
 
     public List()   {
@@ -45,7 +46,7 @@ public class List {
         this.totitem = totitem;
     }
 
-    public int getTimeAdded() {
+    public Timestamp getTimeAdded() {
         return timeAdded;
     }
 
@@ -60,4 +61,12 @@ public class List {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public String getUid() {
+        return uid;
+    }
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
 }
