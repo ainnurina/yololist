@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".userprofile">
 
     <LinearLayout
-        android:id="@+id/acct_login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -32,7 +31,6 @@
                 android:id="@+id/profileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/name_icon"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/poppins"
                 android:selectAllOnFocus="true"
@@ -101,7 +99,6 @@
                 android:id="@+id/profilePhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/name_icon"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/poppins"
                 android:selectAllOnFocus="true"
@@ -121,5 +118,10 @@
                 android:src="@drawable/profile_icon"/>
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/cubaan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </RelativeLayout>

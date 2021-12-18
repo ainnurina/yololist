@@ -16,12 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yololist.data.model.List;
 import com.example.yololist.ui.ListRecyclerAdapter;
+import com.example.yololist.ui.RecyclerViewInterface;
 import com.example.yololist.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 import util.YololistApi;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements RecyclerViewInterface, NavigationView.OnNavigationItemSelectedListener {
 
     //variables
     DrawerLayout drawerlayout;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = db.collection("List");
     private TextView noListEntry;
-
+    private RecyclerViewInterface recyclerViewInterface = this::onItemClick;
 
 
     @Override
@@ -112,32 +112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT){
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                listRecyclerAdapter.deleteItem(viewHolder.getAdapterPosition());
-
-            }
-        }).attachToRecyclerView(recyclerView);
-
-
-        listRecyclerAdapter.setOnItemClickListener(new ListRecyclerAdapter.OnItemClickListener(){
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                List note = documentSnapshot.toObject(List.class);
-                String id = documentSnapshot.getId();
-                String path = documentSnapshot.getReference().getPath();
-                Toast.makeText(MainActivity.this,
-                        "Position: "+position+" ID: "+id, Toast.LENGTH_SHORT).show();
-
-            }
-        });
 
 
         //menu
@@ -180,8 +154,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent2 = new Intent(MainActivity.this, userprofile.class);
                 startActivity(intent2);
                 break;
-                //Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
-                //break;
+            //Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
+            //break;
 
             case R.id.nav_signup:
                 Intent intent3 = new Intent(MainActivity.this, RegisterActivity.class);
@@ -237,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 allList.add(list);
                             }
                             //Invoke recyler view
-                            listRecyclerAdapter = new ListRecyclerAdapter(MainActivity.this, allList);
+                            listRecyclerAdapter = new ListRecyclerAdapter(getApplicationContext(), allList, recyclerViewInterface);
                             recyclerView.setAdapter(listRecyclerAdapter);
                             listRecyclerAdapter.notifyDataSetChanged();
                         } else   {
@@ -254,8 +228,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    //@Override
-   // public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(MainActivity.this, YoloListActivity.class);
 
-   // }
+        intent.putExtra("Title", allList.get(position).getTitle());
+        intent.putExtra("ListID", allList.get(position).getListid());
+        intent.putExtra("ItemQty", allList.get(position).getTotitem());
+        intent.putExtra("DateAdded", allList.get(position).getTimeAdded());
+
+        startActivity(intent);
+    }
 }
