@@ -206,7 +206,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
                             }
 
                             //ltk sini
-                            startActivity(new Intent(PostYololistActivity.this, YoloListActivity.class)); // mcm mana nk bg dia show sekali je
+                            startActivity(new Intent(PostYololistActivity.this, MainActivity.class)); // mcm mana nk bg dia show sekali je
                             finish();
                         }
                     })
