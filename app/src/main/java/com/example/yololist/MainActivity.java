@@ -8,10 +8,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +33,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,6 +46,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import util.YololistApi;
 
@@ -45,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     NavigationView navigationView;
     Button addlistbutton;
     Toolbar toolbar;
+    SearchView searchText;
+    ArrayList<List> arrayList;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth mAuth;
@@ -57,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     private CollectionReference collectionReference = db.collection("List");
     private TextView noListEntry;
     private RecyclerViewInterface recyclerViewInterface = this::onItemClick;
+    private DatabaseReference databaseReference;
+    private FirebaseDatabase database;
 
 
     @Override
@@ -75,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
+        allList = new ArrayList<>();
 
         addlistbutton = (Button)findViewById(R.id.button_add_list2);
 
@@ -107,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         noListEntry = findViewById(R.id.list_no_data);
-        allList = new ArrayList<>();
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -130,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         navigationView.setCheckedItem(R.id.nav_home);
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -184,16 +202,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         return true;
     }
 
-    //showList = findViewById(R.id.button);
-    //nameText = findViewById(R.id.textView);
-
-    //showList.setOnClickListener(new View.OnClickListener() {
-    //@Override
-    //public void onClick(View view) {
-    //    nameText.setText("Welcome to Shopping List!");
-    //}
-    //});
-
 
     @Override
     protected void onStart() {
@@ -238,5 +246,24 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         intent.putExtra("DateAdded", allList.get(position).getTimeAdded());
 
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        searchText = (SearchView) findViewById(R.id.searchTitle);
+
+        searchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                listRecyclerAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return true;
     }
 }

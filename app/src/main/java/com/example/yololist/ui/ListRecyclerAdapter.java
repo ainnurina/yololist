@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,19 +22,23 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 
-public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.ViewHolder> {
+
+public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.ViewHolder> implements Filterable {
     private final RecyclerViewInterface recyclerViewInterface;
 
 
     private static Context context;
-    private java.util.List<List> allList;
+    private java.util.List<List> allList; //examplelist
+    private java.util.List<List> allListFull;
 
     public ListRecyclerAdapter(Context context, java.util.List<List> allList, RecyclerViewInterface recyclerViewInterface) {
 
         this.context = context;
         this.allList = allList;
         this.recyclerViewInterface = recyclerViewInterface;
+        allListFull = new ArrayList<>(allList);
     }
 
 
@@ -69,6 +75,41 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
     public int getItemCount() {
         return allList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            java.util.List<List> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(allListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (List L : allListFull)  {
+                    if (L.getTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(L);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            allList.clear();
+            allList.addAll((java.util.List)results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView title, itemqty, dateAdded;

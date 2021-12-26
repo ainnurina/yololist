@@ -110,7 +110,7 @@ public class LoginActivity<mDatabaseReference> extends AppCompatActivity {
                     return;
                 }
 
-                    loginEmailPasswordUser(email2, password2);
+                loginEmailPasswordUser(email2, password2);
 
             }
 

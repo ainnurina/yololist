@@ -80,7 +80,7 @@
                         android:background="@drawable/white_btn_background">
 
                         <SearchView
-                            android:id="@+id/searchView2"
+                            android:id="@+id/searchTitle"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -120,5 +120,4 @@
     </ScrollView>
 
 </androidx.drawerlayout.widget.DrawerLayout>
-
 
