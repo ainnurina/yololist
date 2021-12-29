@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, PostYololistActivity.class);
                 startActivity(intent);
+
             }
         });
 
@@ -113,11 +114,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
         /*---------Navigation Drawer Menu-----*/
 
-        //Hide or show items
-
         Menu menu = navigationView.getMenu();
-        //menu.findItem(R.id.nav_logout).setVisible(false);
-        //menu.findItem(R.id.nav_profile).setVisible(false);
+        menu.findItem(R.id.nav_archive).setVisible(false);
 
         firebaseAuth = FirebaseAuth.getInstance();
 

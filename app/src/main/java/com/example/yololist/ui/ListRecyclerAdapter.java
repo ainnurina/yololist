@@ -76,6 +76,8 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         return allList.size();
     }
 
+    /* search */
+
     @Override
     public Filter getFilter() {
         return exampleFilter;
@@ -129,7 +131,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
                 @Override
                 public void onClick(View view) {
                     if (recyclerViewInterface != null)  {
-                        int pos = getAdapterPosition();
+                        int pos = getBindingAdapterPosition();
 
                         if (pos != RecyclerView.NO_POSITION)    {
                             recyclerViewInterface.onItemClick(pos);
