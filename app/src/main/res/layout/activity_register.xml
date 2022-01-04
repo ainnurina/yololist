@@ -27,20 +27,21 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="173dp"
+            android:layout_height="233dp"
             android:background="@color/orange_700">
 
+
             <ImageView
-                android:layout_width="77dp"
-                android:layout_height="77dp"
+                android:layout_width="139dp"
+                android:layout_height="139dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="33dp"
+                android:layout_marginTop="45dp"
                 android:src="@drawable/logo" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:layout_marginTop="135dp"
+                android:layout_marginTop="195dp"
                 android:background="#FF983B">
                 <TextView
                     android:layout_width="wrap_content"
@@ -52,7 +53,6 @@
                     android:textColor="#ffffff"
                     android:textSize="18sp" />
             </FrameLayout>
-
 
         </FrameLayout>
 

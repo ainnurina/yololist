@@ -127,6 +127,19 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        /*------Edit & remove----
+        List list_edit = (List)getIntent().getSerializableExtra("EDIT");
+        if (list_edit != null)  {
+            btn.setText("UPDATE");
+            edit_name.setText(list_edit.getName());
+            edit_position.setText(list_edit.getPosition());
+            btn_open.setVisibility(View.GONE);
+
+        } else  {
+
+        }
+        --*/
+
 
 
         //menu

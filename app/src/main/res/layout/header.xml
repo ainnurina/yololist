@@ -8,16 +8,9 @@
     android:padding="20dp">
 
     <ImageView
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
         android:src="@drawable/logo"
-        android:contentDescription="TODO" />
+        android:contentDescription="TODO"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Yololist"
-        android:layout_marginTop="6dp"
-        android:textSize="20sp"
-        android:fontFamily="@font/poppins_medium"/>
 </LinearLayout>

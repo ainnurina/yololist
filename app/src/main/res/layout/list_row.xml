@@ -72,12 +72,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/deleteList"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@color/white"
-                android:src="@drawable/ic_baseline_more_vert_24"
+
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:text="&#8942;"
+                android:textSize="20sp"
+                android:id="@+id/txt_option"
+                android:textAlignment="center"
                 tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
