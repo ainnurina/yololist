@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yololist.model.Items;
 import com.example.yololist.ui.ItemAdapter;
@@ -24,7 +25,7 @@ import java.util.List;
 
 import util.YololistApi;
 
-public class YoloListActivity extends AppCompatActivity {
+public class UpdateYololistActivity extends AppCompatActivity {
 
     TextView vTitle, vItem;
     String title, ListID, itemQty, DateAdded;
@@ -46,7 +47,7 @@ public class YoloListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_yolo_list);
+        setContentView(R.layout.activity_update_yololist);
 
         title = getIntent().getStringExtra("Title");
         ListID = getIntent().getStringExtra("ListID");
@@ -95,7 +96,7 @@ public class YoloListActivity extends AppCompatActivity {
                                                 allItems.add(item);
                                             }
                                             //invoke recyclerview
-                                            itemAdapter = new ItemAdapter(YoloListActivity.this, allItems);
+                                            itemAdapter = new ItemAdapter(UpdateYololistActivity.this, allItems);
                                             recyclerView.setAdapter(itemAdapter);
                                             itemAdapter.notifyDataSetChanged();
                                         }
@@ -104,7 +105,7 @@ public class YoloListActivity extends AppCompatActivity {
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-
+                                        Toast.makeText(UpdateYololistActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }

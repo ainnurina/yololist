@@ -4,14 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yololist.R;
-import com.example.yololist.data.model.Items;
+import com.example.yololist.model.Items;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.List;

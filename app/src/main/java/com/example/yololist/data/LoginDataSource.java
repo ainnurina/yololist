@@ -1,6 +1,6 @@
 package com.example.yololist.data;
 
-import com.example.yololist.data.model.LoggedInUser;
+import com.example.yololist.model.LoggedInUser;
 
 import java.io.IOException;
 

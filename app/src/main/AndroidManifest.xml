@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Yololist"
         tools:replace="android:icon">
-        <activity android:name=".YoloListActivity"></activity>
+        <activity android:name=".UpdateYololistActivity"></activity>
+        <activity android:name=".YoloListActivity" />
         <activity android:name=".ArchiveActivity" />
         <activity android:name=".PostYololistActivity" />
         <activity android:name=".userprofile" />

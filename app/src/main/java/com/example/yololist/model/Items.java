@@ -1,4 +1,4 @@
-package com.example.yololist.data.model;
+package com.example.yololist.model;
 
 public class Items {
     private String itemid;

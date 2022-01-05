@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-import com.example.yololist.data.model.Items;
-import com.example.yololist.data.model.List;
+import com.example.yololist.model.Items;
+import com.example.yololist.model.List;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;

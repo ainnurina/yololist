@@ -1,13 +1,16 @@
 package com.example.yololist.ui;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.PopupMenu;
@@ -20,16 +23,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yololist.MainActivity;
 import com.example.yololist.R;
 
-import com.example.yololist.data.model.List;
+import com.example.yololist.UpdateYololistActivity;
+import com.example.yololist.model.Items;
+import com.example.yololist.model.List;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -43,8 +56,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
     private java.util.List<List> allList; //examplelist
     private java.util.List<List> allListFull;
 
-    FirebaseFirestore firestore;
-    FirebaseAuth auth;
 
     public ListRecyclerAdapter(Context context, java.util.List<List> allList, RecyclerViewInterface recyclerViewInterface) {
 
@@ -52,8 +63,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         this.allList = allList;
         this.recyclerViewInterface = recyclerViewInterface;
         allListFull = new ArrayList<>(allList);
-        firestore = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
 
     }
 
@@ -72,7 +81,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ListRecyclerAdapter.ViewHolder viewHolder, int position) {
-
+        //allList.clear();
         List list = allList.get(position);
         viewHolder.title.setText(list.getTitle());
         viewHolder.itemqty.setText(""+list.getTotitem()+" items");
@@ -82,22 +91,95 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 switch (menuItem.getItemId()) {
                     case R.id.menu_edit:
-                        //Intent intent = new Intent(context, MainActivity.class);
-                        //intent.putExtra("EDIT", list);
-                        //context.startActivity(intent);
+                        Intent intent = new Intent(context, UpdateYololistActivity.class);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        }
+                        intent.putExtra("Title", allList.get(position).getTitle());
+                        intent.putExtra("ListID", allList.get(position).getListid());
+                        intent.putExtra("ItemQty", allList.get(position).getTotitem());
+                        intent.putExtra("DateAdded", allList.get(position).getTimeAdded());
+                        context.startActivity(intent);
                         break;
 
                     case R.id.menu_remove:
+                        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
-                        FirebaseDatabase db =FirebaseDatabase.getInstance();
-                        DatabaseReference databaseReference = db.getReference(List.class.getSimpleName());
-                        databaseReference.child(list.getListid()).removeValue().addOnSuccessListener(suc -> {
-                            Toast.makeText(context, "Record is removed", Toast.LENGTH_SHORT).show();
-                            notifyItemRemoved(position);
-                            databaseReference.child(list.getListid()).removeValue();
-                        }).addOnFailureListener(er-> {
-                            Toast.makeText(context, ""+er.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                        String LID = allList.get(position).getListid();
+
+                        firebaseFirestore.collection("List").whereEqualTo("listid", LID)
+                                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                                        if (e != null) {
+                                            Log.d("", "Error : " + e.getMessage());
+                                        }
+                                        for (DocumentChange docL : documentSnapshots.getDocumentChanges()) {
+                                            docL.getDocument().getId();
+
+                                            firebaseFirestore.collection("List").document(docL.getDocument().getId())
+                                                    .delete()
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                                            firebaseFirestore.collection("Items").whereEqualTo("listid", allList.get(position).getListid())
+                                                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                                                        @Override
+                                                                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                                                                            if (e != null) {
+                                                                                Log.d("", "Error : " + e.getMessage());
+                                                                            }
+                                                                            for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
+                                                                                doc.getDocument().getId();
+
+                                                                                firebaseFirestore.collection("Items").document(doc.getDocument().getId())
+                                                                                        .delete()
+                                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                            @Override
+                                                                                            public void onComplete(@NonNull Task<Void> task) {
+
+
+                                                                                            }
+                                                                                        })
+                                                                                        .addOnFailureListener(new OnFailureListener() {
+                                                                                            @Override
+                                                                                            public void onFailure(@NonNull Exception e) {
+                                                                                                //pd.dismiss();
+                                                                                                Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                                                            }
+                                                                                        });
+                                                                            }
+
+                                                                        }
+                                                                    });
+
+                                                            if (task.isSuccessful())    {
+                                                                Toast.makeText(context, "List has been deleted from Database.", Toast.LENGTH_SHORT).show();
+                                                                Intent intent = new Intent(context, MainActivity.class);
+                                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                }
+                                                                context.startActivity(intent);
+                                                            } else  {
+                                                                Toast.makeText(context, "Fail to delete the course. ", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    //pd.dismiss();
+                                                    Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+
+
+
+
+
                         break;
                 }
                 return false;
@@ -113,8 +195,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         viewHolder.dateAdded.setText(timeAgo);
 
     }
-
-
 
     @Override
     public int getItemCount() {

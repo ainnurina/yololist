@@ -1,6 +1,6 @@
 package com.example.yololist.data;
 
-import com.example.yololist.data.model.LoggedInUser;
+import com.example.yololist.model.LoggedInUser;
 
 /**
  * Class that requests authentication and user information from the remote data source and

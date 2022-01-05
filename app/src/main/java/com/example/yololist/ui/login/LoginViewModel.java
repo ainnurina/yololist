@@ -8,7 +8,7 @@ import android.util.Patterns;
 
 import com.example.yololist.data.LoginRepository;
 import com.example.yololist.data.Result;
-import com.example.yololist.data.model.LoggedInUser;
+import com.example.yololist.model.LoggedInUser;
 import com.example.yololist.R;
 
 public class LoginViewModel extends ViewModel {
