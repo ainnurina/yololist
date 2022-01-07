@@ -10,28 +10,30 @@
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="ToList"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Yololist"
         tools:replace="android:icon">
-        <activity android:name="com.example.ToList.UpdateYololistActivity"></activity>
-        <activity android:name="com.example.ToList.YoloListActivity" />
-        <activity android:name="com.example.ToList.ArchiveActivity" />
-        <activity android:name="com.example.ToList.PostYololistActivity" />
-        <activity android:name="com.example.ToList.userprofile" />
-        <activity android:name="com.example.ToList.RegisterActivity" />
+        <activity android:name=".GraphExpensesActivity"></activity>
+        <activity android:name=".TableExpensesActivity" />
+        <activity android:name=".UpdateYololistActivity" />
+        <activity android:name=".YoloListActivity" />
+        <activity android:name=".ArchiveActivity" />
+        <activity android:name=".PostYololistActivity" />
+        <activity android:name=".userprofile" />
+        <activity android:name=".RegisterActivity" />
         <activity
-            android:name="com.example.ToList.ui.login.LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name="com.example.ToList.SecondActivity" />
-        <activity android:name="com.example.ToList.MainActivity">
+            android:name=".ui.login.LoginActivity"
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SecondActivity" />
+        <activity android:name=".MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

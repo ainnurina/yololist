@@ -72,12 +72,15 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         List list = allList.get(position);
         viewHolder.title.setText(list.getTitle());
         viewHolder.itemqty.setText(""+list.getTotitem()+" items");
+        viewHolder.budgetshop.setText("RM"+list.getTotalbudget());
+        viewHolder.dateshop.setText(""+list.getDatePlan());
+        viewHolder.placeshop.setText(""+list.getShopName());
         viewHolder.txt_option.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(context, viewHolder.txt_option);
             popupMenu.inflate(R.menu.option_menu);
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 switch (menuItem.getItemId()) {
-                    case R.id.menu_edit:
+                    case R.id.menu_share:
                         Intent intent = new Intent(context, UpdateYololistActivity.class);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -226,7 +229,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
     };
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView title, itemqty, dateAdded, txt_option;
+        public TextView title, itemqty, dateAdded, txt_option, placeshop, dateshop, budgetshop;
 
         String userId;
         String username;
@@ -239,6 +242,9 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
             itemqty = itemView.findViewById(R.id.items_qty);
             dateAdded = itemView.findViewById(R.id.dateadded);
             txt_option = itemView.findViewById(R.id.txt_option);
+            placeshop = itemView.findViewById(R.id.placetoshop);
+            dateshop = itemView.findViewById(R.id.datetoshop);
+            budgetshop = itemView.findViewById(R.id.budgettoshop);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

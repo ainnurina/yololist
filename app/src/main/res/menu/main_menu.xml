@@ -42,5 +42,23 @@
         </menu>
     </item>
 
+    <item android:title="Monitor Spending">
+        <menu>
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/nav_table"
+                    android:icon="@drawable/signup_icon"
+                    android:title="Spending Details " />
+
+                <item
+                    android:id="@+id/nav_graph"
+                    android:icon="@drawable/login_icon"
+                    android:title="Graph" />
+
+            </group>
+        </menu>
+    </item>
+
 
 </menu>

@@ -42,6 +42,18 @@
                 tools:layout_editor_absoluteX="2dp" />
 
             <TextView
+                android:id="@+id/budgettoshop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="55dp"
+                android:layout_marginBottom="4dp"
+                android:textStyle="bold"
+                android:text="Budget"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="2dp" />
+
+            <TextView
                 android:id="@+id/items_qty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,13 +65,37 @@
                 tools:layout_editor_absoluteX="2dp" />
 
             <TextView
-                android:id="@+id/dateadded"
+                android:id="@+id/placetoshop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="55dp"
-                android:text="created on: 12/11/2021"
+                android:layout_marginBottom="4dp"
+                android:text="Aeon Shah Alam"
                 android:textSize="14sp"
+                tools:layout_editor_absoluteX="2dp" />
+
+            <TextView
+                android:id="@+id/datetoshop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="55dp"
+                android:layout_marginBottom="4dp"
+                android:text="Date"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="2dp" />
+
+
+            <TextView
+                android:id="@+id/dateadded"
+                android:layout_width="156dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="188dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="55dp"
+                android:text="created on: 12/11/2021"
+                android:textSize="12sp"
                 tools:layout_editor_absoluteX="2dp" />
         </LinearLayout>
 

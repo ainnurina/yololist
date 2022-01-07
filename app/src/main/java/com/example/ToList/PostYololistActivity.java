@@ -3,6 +3,7 @@ package com.example.ToList;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,7 +32,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import util.YololistApi;
@@ -44,6 +50,10 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     private EditText textIn;
     private LinearLayout container;
     private TextView textOut;
+    private EditText etDate;
+    private EditText shopName;
+    private EditText budget;
+    DatePickerDialog.OnDateSetListener setListener;
 
 
     private FirebaseAuth firebaseAuth;
@@ -67,12 +77,36 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
 
         firebaseAuth = FirebaseAuth.getInstance();
         list_title = findViewById(R.id.post_list_title);
+        etDate = findViewById(R.id.et_date);
+        shopName = findViewById(R.id.post_list_shopName);
+        budget = findViewById(R.id.post_list_budget);
 
         textIn = findViewById(R.id.textin);
         saveButton = findViewById(R.id.post_saveButton);
         saveButton.setOnClickListener(this);
         buttonAdd = findViewById(R.id.post_add_new_item);
         container = findViewById(R.id.container_item);
+
+        Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        etDate.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        PostYololistActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month = month+1;
+                        String date = day+"/"+month+"/"+year;
+                        etDate.setText(date);
+                    }
+                },year,month,day);
+                datePickerDialog.show();
+            }
+        });
 
 
 
@@ -143,6 +177,10 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
 
     private void saveList(String currentUserId) {
         String title = list_title.getText().toString().trim();
+        String shopnamelocation = shopName.getText().toString().trim();
+        String dateplan = etDate.getText().toString().trim();
+        String totbudget = budget.getText().toString().trim();
+
 
         /*--Loop item--*/
         //count total item & pass at new collection
@@ -158,6 +196,14 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
             list.setTitle(title);
             list.setTotitem(values.size());
             list.setTimeAdded(new Timestamp(new Date()));
+            try {
+                list.setDatePlan(new SimpleDateFormat("dd/MM/yyyy").parse(dateplan));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            list.setShopName(shopnamelocation);
+            list.setTotalbudget(Float.parseFloat(totbudget));
+
             list.setUserId(currentUserId);
 
             //invoke collectionReference

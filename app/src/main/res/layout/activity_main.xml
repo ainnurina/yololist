@@ -47,21 +47,21 @@
 
                 <Button
                     android:id="@+id/button_add_list2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="54dp"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/toolbar3"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginStart="288dp"
+                    android:layout_marginStart="325dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="35dp"
-                    android:layout_marginBottom="3dp"
-                    android:background="@android:color/transparent"
-                    android:text="Add List"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="-4dp"
+                    android:background="@color/orange_200"
+                    android:text="+"
                     android:textColor="#FFFFFF"
-                    android:textSize="16sp" />
+                    android:textSize="30sp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

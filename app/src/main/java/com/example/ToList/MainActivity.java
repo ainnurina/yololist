@@ -93,6 +93,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             }
         });
 
+        /*---------Recycler View-----*/
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        noListEntry = findViewById(R.id.list_no_data);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         /*----------Hooks------------*/
         drawerlayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -105,31 +117,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
         Menu menu = navigationView.getMenu();
         menu.findItem(R.id.nav_archive).setVisible(false);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-
-        noListEntry = findViewById(R.id.list_no_data);
-
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        /*------Edit & remove----
-        List list_edit = (List)getIntent().getSerializableExtra("EDIT");
-        if (list_edit != null)  {
-            btn.setText("UPDATE");
-            edit_name.setText(list_edit.getName());
-            edit_position.setText(list_edit.getPosition());
-            btn_open.setVisibility(View.GONE);
-
-        } else  {
-
-        }
-        --*/
-
-
 
         //menu
         if (user != null && firebaseAuth != null)   {
@@ -197,6 +184,17 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                     //finish;
                 }
                 break;
+
+            case R.id.nav_table:
+                Intent intent5 = new  Intent(MainActivity.this, TableExpensesActivity.class);
+                startActivity(intent5);
+                break;
+
+            case R.id.nav_graph:
+                Intent intent6 = new  Intent(MainActivity.this, GraphExpensesActivity.class);
+                startActivity(intent6);
+                break;
+
         }
         drawerlayout.closeDrawer(GravityCompat.START);
         return true;
