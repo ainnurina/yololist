@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.yololist"
+        applicationId "com.example.ToList"
         minSdkVersion 19
         targetSdkVersion 31
         versionCode 1

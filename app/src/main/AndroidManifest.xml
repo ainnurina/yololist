@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.yololist">
+    package="com.example.ToList">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,17 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Yololist"
         tools:replace="android:icon">
-        <activity android:name=".UpdateYololistActivity"></activity>
-        <activity android:name=".YoloListActivity" />
-        <activity android:name=".ArchiveActivity" />
-        <activity android:name=".PostYololistActivity" />
-        <activity android:name=".userprofile" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name="com.example.ToList.UpdateYololistActivity"></activity>
+        <activity android:name="com.example.ToList.YoloListActivity" />
+        <activity android:name="com.example.ToList.ArchiveActivity" />
+        <activity android:name="com.example.ToList.PostYololistActivity" />
+        <activity android:name="com.example.ToList.userprofile" />
+        <activity android:name="com.example.ToList.RegisterActivity" />
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name="com.example.ToList.ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".SecondActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.ToList.SecondActivity" />
+        <activity android:name="com.example.ToList.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
