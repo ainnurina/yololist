@@ -17,8 +17,10 @@ import android.widget.Toast;
 
 import com.example.ToList.model.Items;
 import com.example.ToList.ui.ItemUpdateAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -34,8 +36,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import util.YololistApi;
 
@@ -105,7 +109,7 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
             String currentUserId = YololistApi.getInstance().getUserId();
             String currentUserName = YololistApi.getInstance().getUsername();
 
-            if (v.getId() == R.id.post_saveButton) {
+            if (v.getId() == R.id.update_savebutton) {
                 updateList(currentUserId);
             }
         }
@@ -124,82 +128,60 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
         int totitem = 0; //untuk count total
 
         if (!TextUtils.isEmpty(title)) {
-            com.example.ToList.model.List list = new com.example.ToList.model.List();
-            list.setTitle(title);
-            list.setTotitem(values.size());
-            list.setShopName(shopName);
+            //com.example.ToList.model.List list = new com.example.ToList.model.List();
+            //list.setTitle(title);
+            //list.setTotitem(values.size());
+            //list.setShopName(shopName);
 
-            try {
-                list.setDatePlan(new SimpleDateFormat("dd/MM/yyyy").parse(datePlan));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            list.setTotalbudget(Float.parseFloat("totbudget"));
-            list.setTotalexpenses(Float.parseFloat("totalexpenses"));
+            //try {
+            //    list.setDatePlan(new SimpleDateFormat("dd/MM/yyyy").parse(datePlan));
+            //} catch (ParseException e) {
+            //    e.printStackTrace();
+            //}
+            //list.setTotalexpenses(Float.parseFloat("totalexpenses"));
 
-            //invoke collectionReference
-            collectionReferenceL.add(list)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+
+
+            collectionReferenceL.whereEqualTo("listid", ListID).get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful())    {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    com.example.ToList.model.List list = document.toObject(com.example.ToList.model.List.class);
 
-                            //count addview column
-                            String[] itemName = new String[0];
+                                    String doc_id = document.getId();
 
-                            for (int i = 0; i < values.size(); i++) {
-                                DatabaseReference referenceI = FirebaseDatabase.getInstance().getReference().child("Items");
-
-
-                                String keyItem = referenceI.push().getKey();
-                                //itemName[i] = textOut.getText().toString().trim();
-
-                                Items item = new Items();
-                                item.setItemid(keyItem);
-                                item.setItemName(values.get(i));
-                                //item.setItemName(itemName);
-                                item.Itemchecked(false);
-
-
-                                item.setListid(key);
-
-                                collectionReferenceI.add(item)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Toast.makeText(YoloListActivity.this, "List has been updated", Toast.LENGTH_SHORT).show();
-
-
+                                    DocumentReference listRef = collectionReferenceL.document(doc_id);
+                                    listRef.update(
+                                            "title", title,
+                                            "shopName", shopName,
+                                            "totalexpenses", Float.parseFloat(totalexpenses)
+                                    ).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful())    {
+                                                Toast.makeText(YoloListActivity.this, "Alhamdullilah updated", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(YoloListActivity.this, MainActivity.class));
+                                                finish();
                                             }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-
-                                                Log.d(TAG, "onFailure: " + e.getMessage());
-
-                                            }
-                                        });
-
+                                            else
+                                                Toast.makeText(YoloListActivity.this, "CUBA LAGI", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
                             }
 
-                            //ltk sini
-                            startActivity(new Intent(YoloListActivity.this, MainActivity.class));
-                            finish();
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(YoloListActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
-                            Log.d(TAG, "onFailure: " + e.getMessage());
-
-                        }
-                    });
-
-        } else {
-
+                }
+            });
         }
+
     }
 
 
@@ -212,8 +194,7 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
         //String userid = YololistApi.g;
         //String LID = ;
 
-        collectionReferenceL.whereEqualTo("listid", getIntent().getStringExtra("ListID")).whereEqualTo("userId", YololistApi.getInstance()
-                .getUserId())
+        collectionReferenceL.whereEqualTo("listid", ListID)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -233,7 +214,7 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
 
 
 
-                        collectionReferenceI.whereEqualTo("listid", getIntent().getStringExtra("ListID"))
+                        collectionReferenceI.whereEqualTo("listid", ListID)
                                 .get()
                                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                     @Override

@@ -202,6 +202,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
             }
             list.setShopName(shopnamelocation);
             list.setTotalbudget(Float.parseFloat(totbudget));
+            list.setTotalexpenses(Float.parseFloat("0.00"));
 
             list.setUserId(currentUserId);
 
