@@ -34,10 +34,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-
 public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.ViewHolder> implements Filterable {
     private final RecyclerViewInterface recyclerViewInterface;
-
 
     private static Context context;
     private java.util.List<List> allList; //examplelist
@@ -72,9 +70,11 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         List list = allList.get(position);
         viewHolder.title.setText(list.getTitle());
         viewHolder.itemqty.setText(""+list.getTotitem()+" items");
-        viewHolder.budgetshop.setText("RM"+list.getTotalbudget());
-        viewHolder.dateshop.setText(""+list.getDatePlan());
-        viewHolder.placeshop.setText(""+list.getShopName());
+
+        viewHolder.budgetshop.setText("Estimate budget RM"+list.getTotalbudget());
+
+        viewHolder.dateshop.setText("Shop on "+list.getDatePlan());
+        viewHolder.placeshop.setText("Shop at "+list.getShopName());
         viewHolder.txt_option.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(context, viewHolder.txt_option);
             popupMenu.inflate(R.menu.option_menu);
@@ -182,7 +182,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         //viewHolder.dateAdded.setText(list.getTimeAdded());
         String timeAgo = (String) DateUtils.getRelativeTimeSpanString(list.getTimeAdded().getSeconds()*1000);
 
-        viewHolder.dateAdded.setText(timeAgo);
+        viewHolder.dateAdded.setText("Created at "+timeAgo);
 
     }
 

@@ -166,7 +166,6 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
 
         if (YololistApi.getInstance() != null) {
             String currentUserId = YololistApi.getInstance().getUserId();
-            String currentUserName = YololistApi.getInstance().getUsername();
 
             if (v.getId() == R.id.post_saveButton) {
                 saveList(currentUserId);
@@ -226,7 +225,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
                                 item.setItemid(keyItem);
                                 item.setItemName(values.get(i));
                                 //item.setItemName(itemName);
-                                item.isItemchecked(false);
+                                item.Itemchecked(false);
 
 
                                 item.setListid(key);

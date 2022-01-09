@@ -35,7 +35,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import util.YololistApi;
 
@@ -243,6 +245,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         intent.putExtra("ListID", allList.get(position).getListid());
         intent.putExtra("ItemQty", allList.get(position).getTotitem());
         intent.putExtra("DateAdded", allList.get(position).getTimeAdded());
+        intent.putExtra("shopName", allList.get(position).getShopName());
+        intent.putExtra("datePlan", new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(allList.get(position).getDatePlan()));
+        intent.putExtra("totalbudget", ""+allList.get(position).getTotalbudget());
+        intent.putExtra("totalexpenses", ""+allList.get(position).getTotalexpenses());
 
         startActivity(intent);
     }
