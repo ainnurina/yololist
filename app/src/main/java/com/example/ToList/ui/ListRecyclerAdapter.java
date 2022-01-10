@@ -32,7 +32,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.ViewHolder> implements Filterable {
     private final RecyclerViewInterface recyclerViewInterface;
@@ -73,7 +75,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
 
         viewHolder.budgetshop.setText("Estimate budget RM"+list.getTotalbudget());
 
-        viewHolder.dateshop.setText("Shop on "+list.getDatePlan());
+        viewHolder.dateshop.setText("Shop on "+new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(list.getDatePlan()));
         viewHolder.placeshop.setText("Shop at "+list.getShopName());
         viewHolder.txt_option.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(context, viewHolder.txt_option);

@@ -5,6 +5,7 @@ import android.app.Application;
 public class YololistApi extends Application {
     private String username;
     private String userId;
+    private String email;
     private static YololistApi instance;
 
     public static YololistApi getInstance()  {
@@ -32,4 +33,13 @@ public class YololistApi extends Application {
     public void setUserId(String userId)    {
         this.userId = userId;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }

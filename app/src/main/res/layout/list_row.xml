@@ -37,7 +37,7 @@
                 android:layout_marginRight="55dp"
                 android:layout_marginBottom="4dp"
                 android:text="Groceries Shopping"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="2dp" />
 

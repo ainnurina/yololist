@@ -73,6 +73,7 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yolo_list);;
 
+        //intent
         title = getIntent().getStringExtra("Title");
         ListID = getIntent().getStringExtra("ListID");
         itemQty = getIntent().getStringExtra("ItemQty");
@@ -82,7 +83,7 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
         totalbudget = getIntent().getStringExtra("totalbudget");
         totalexpenses = getIntent().getStringExtra("totalexpenses");
 
-
+        //get element user interface id
         update_title = findViewById(R.id.update_title);
         update_shopName = findViewById(R.id.update_shopName);
         update_datego = findViewById(R.id.update_datego);
@@ -128,18 +129,6 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
         int totitem = 0; //untuk count total
 
         if (!TextUtils.isEmpty(title)) {
-            //com.example.ToList.model.List list = new com.example.ToList.model.List();
-            //list.setTitle(title);
-            //list.setTotitem(values.size());
-            //list.setShopName(shopName);
-
-            //try {
-            //    list.setDatePlan(new SimpleDateFormat("dd/MM/yyyy").parse(datePlan));
-            //} catch (ParseException e) {
-            //    e.printStackTrace();
-            //}
-            //list.setTotalexpenses(Float.parseFloat("totalexpenses"));
-
 
 
             collectionReferenceL.whereEqualTo("listid", ListID).get()
@@ -153,22 +142,27 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
                                     String doc_id = document.getId();
 
                                     DocumentReference listRef = collectionReferenceL.document(doc_id);
-                                    listRef.update(
-                                            "title", title,
-                                            "shopName", shopName,
-                                            "totalexpenses", Float.parseFloat(totalexpenses)
-                                    ).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful())    {
-                                                Toast.makeText(YoloListActivity.this, "Alhamdullilah updated", Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(YoloListActivity.this, MainActivity.class));
-                                                finish();
+                                    try {
+                                        listRef.update(
+                                                "title", title,
+                                                "shopName", shopName,
+                                                "totalexpenses", Float.parseFloat(totalexpenses),
+                                                "datePlan", new SimpleDateFormat("dd/MM/yyyy").parse(datePlan)
+                                        ).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful())    {
+                                                    Toast.makeText(YoloListActivity.this, "Alhamdullilah updated", Toast.LENGTH_SHORT).show();
+                                                    startActivity(new Intent(YoloListActivity.this, MainActivity.class));
+                                                    finish();
+                                                }
+                                                else
+                                                    Toast.makeText(YoloListActivity.this, "CUBA LAGI", Toast.LENGTH_SHORT).show();
                                             }
-                                            else
-                                                Toast.makeText(YoloListActivity.this, "CUBA LAGI", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                        });
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
 

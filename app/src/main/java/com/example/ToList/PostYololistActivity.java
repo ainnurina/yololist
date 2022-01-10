@@ -41,6 +41,8 @@ import java.util.Date;
 
 import util.YololistApi;
 
+import static java.lang.Boolean.parseBoolean;
+
 public class PostYololistActivity extends AppCompatActivity implements OnClickListener {
 
     private static final String TAG = "PostYololistActivity";
@@ -226,7 +228,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
                                 item.setItemid(keyItem);
                                 item.setItemName(values.get(i));
                                 //item.setItemName(itemName);
-                                item.Itemchecked(false);
+                                item.Itemchecked(parseBoolean("false"));
 
 
                                 item.setListid(key);

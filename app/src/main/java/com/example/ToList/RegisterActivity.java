@@ -160,9 +160,13 @@ public class RegisterActivity extends AppCompatActivity {
                                                                             String name = task.getResult()
                                                                                     .getString("username");
 
+                                                                            String mail = task.getResult().getString("email");
+
+
                                                                             YololistApi yololistApi = YololistApi.getInstance(); //Global API
                                                                             yololistApi.setUserId(currentUserId);
                                                                             yololistApi.setUsername(name);
+                                                                            yololistApi.setEmail(mail);
 
                                                                             Intent intent = new Intent(RegisterActivity.this,
                                                                                     LoginActivity.class);
