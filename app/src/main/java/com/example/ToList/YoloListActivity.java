@@ -9,9 +9,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,8 +51,10 @@ import static android.content.ContentValues.TAG;
 public class YoloListActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText update_title, update_shopName, update_datego, update_addnewitem, update_expenses;
-    Button saveButton;
-    TextView update_budget, vItem;
+    Button saveButton, buttonAddNewItem;
+    TextView update_budget, vItem, textOut;
+    private CheckBox checked;
+    private LinearLayout container;
     String title, ListID, itemQty, DateAdded, shopName, datePlan, totalbudget, totalexpenses;
 
     private FirebaseAuth firebaseAuth;
@@ -92,6 +97,8 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
         update_expenses = findViewById(R.id.update_expenses);
         saveButton = findViewById(R.id.update_savebutton);
         saveButton.setOnClickListener(this);
+        buttonAddNewItem = findViewById(R.id.button_update_add_new_item);
+        buttonAddNewItem.setOnClickListener(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -100,6 +107,58 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
         recyclerView = findViewById(R.id.recyclerViewItem);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                /*
+        buttonAddNewItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                View addView = layoutInflater.inflate(R.layout.update_item_row, null);
+
+                textOut = addView.findViewById(R.id.item_name);
+                textOut.setText(update_addnewitem.getText().toString());
+                values.add(update_addnewitem.getText().toString());
+
+
+                Button buttonRemove = (Button) addView.findViewById(R.id.buttonminus);
+                View finalAddView = addView;
+                String tempS = textOut.getText().toString().trim();
+                //String name = textIn.getText().toString().trim();
+                buttonRemove.setOnClickListener(new View.OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View v) {
+
+                        for (int i = 0; i <values.size(); i++) {
+                            if ((tempS).equals(values.get(i))) {
+                                values.remove(i);
+                                ((LinearLayout) finalAddView.getParent()).removeView(finalAddView);
+                                break;
+                            }
+                        }
+
+                    }
+                });
+
+                container.addView(addView);
+            }
+        });
+
+
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+
+                } else {
+
+                }
+            }
+        };
+
+                 */
 
     }
 
@@ -112,8 +171,48 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
 
             if (v.getId() == R.id.update_savebutton) {
                 updateList(currentUserId);
+            } else if (v.getId() == R.id.button_update_add_new_item)  {
+                addnewItem(currentUserId);
             }
         }
+    }
+
+    private void addnewItem(String currentUserId) {
+        String up_newItem = update_addnewitem.getText().toString().trim();
+
+        if (!TextUtils.isEmpty(title)) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("List");
+
+            String key = reference.push().getKey();
+            Items item = new Items();
+            item.setItemid(key);
+            item.setItemStatus("not yet purchased");
+            item.setItemName(up_newItem);
+            item.setListid(ListID);
+
+            collectionReferenceI.add(item)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+
+                            //int totalQtyNow = Integer.parseInt(itemQty)+1; //kena update dalam list
+                            Toast.makeText(YoloListActivity.this, "Item successful added.."+itemQty, Toast.LENGTH_SHORT).show();
+                            //startActivity(new Intent(YoloListActivity.this, MainActivity.class)); // mcm mana nk bg dia show sekali jefinish();
+                            overridePendingTransition( 0, 0);
+                            startActivity(getIntent());
+                            overridePendingTransition( 0, 0);
+                            finish();
+
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(YoloListActivity.this, "Item cannot added on database.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
     }
 
     private void updateList(String currentUserId) {
@@ -152,6 +251,10 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful())    {
+                                                    ///update item dari sini!
+
+
+                                                    //update item ke sini!
                                                     Toast.makeText(YoloListActivity.this, "Alhamdullilah updated", Toast.LENGTH_SHORT).show();
                                                     startActivity(new Intent(YoloListActivity.this, MainActivity.class));
                                                     finish();

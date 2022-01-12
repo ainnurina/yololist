@@ -3,19 +3,20 @@ package com.example.ToList.model;
 public class Items {
     private String itemid;
     private String itemName;
-    private boolean itemchecked;
     private String listid;
+    private String itemStatus;
+
 
     public Items() {
         super();
     }
 
-    public Items(String itemid, String itemName, boolean itemchecked, String listid) {
+    public Items(String itemid, String itemName, String itemStatus, String listid) {
         super();
         this.itemid = itemid;
         this.itemName = itemName;
-        this.itemchecked = itemchecked;
         this.listid = listid;
+        this.itemStatus = itemStatus;
     }
 
     public String getItemid() {
@@ -42,11 +43,11 @@ public class Items {
         this.listid = listid;
     }
 
-    public boolean Itemchecked(boolean aFalse) {
-        return itemchecked;
+    public String getItemStatus() {
+        return itemStatus;
     }
 
-    public void setItemchecked(boolean itemchecked) {
-        this.itemchecked = itemchecked;
+    public void setItemStatus(String itemStatus) {
+        this.itemStatus = itemStatus;
     }
 }

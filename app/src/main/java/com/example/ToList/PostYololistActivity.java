@@ -222,13 +222,14 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
 
 
                                 String keyItem = referenceI.push().getKey();
-                                //itemName[i] = textOut.getText().toString().trim();
+                                //itemName[i] = textOut.get
+                                // Text().toString().trim();
 
                                 Items item = new Items();
                                 item.setItemid(keyItem);
                                 item.setItemName(values.get(i));
+                                item.setItemStatus("not yet purchased");
                                 //item.setItemName(itemName);
-                                item.Itemchecked(parseBoolean("false"));
 
 
                                 item.setListid(key);
