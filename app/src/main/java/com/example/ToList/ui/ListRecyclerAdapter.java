@@ -21,20 +21,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ToList.MainActivity;
 import com.example.ToList.R;
 
-import com.example.ToList.UpdateYololistActivity;
+import com.example.ToList.model.Items;
 import com.example.ToList.model.List;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.ViewHolder> implements Filterable {
     private final RecyclerViewInterface recyclerViewInterface;
@@ -42,6 +43,10 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
     private static Context context;
     private java.util.List<List> allList; //examplelist
     private java.util.List<List> allListFull;
+    private java.util.List<Items> allItems = new ArrayList<Items>();
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference collectionReferenceI = db.collection("Items");
 
 
     public ListRecyclerAdapter(Context context, java.util.List<List> allList, RecyclerViewInterface recyclerViewInterface) {
@@ -75,14 +80,16 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
 
         viewHolder.budgetshop.setText("Estimate budget RM"+list.getTotalbudget());
 
-        viewHolder.dateshop.setText("Shop on "+new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(list.getDatePlan()));
+        //viewHolder.dateshop.setText("Shop on "+new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(list.getDatePlan()));
         viewHolder.placeshop.setText("Shop at "+list.getShopName());
         viewHolder.txt_option.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(context, viewHolder.txt_option);
             popupMenu.inflate(R.menu.option_menu);
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 switch (menuItem.getItemId()) {
+                    //share List
                     case R.id.menu_share:
+                        /*
                         Intent intent = new Intent(context, UpdateYololistActivity.class);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -92,8 +99,69 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
                         intent.putExtra("ItemQty", allList.get(position).getTotitem());
                         intent.putExtra("DateAdded", allList.get(position).getTimeAdded());
                         context.startActivity(intent);
+
+                         */
+                        //for .txt file
+                        String title = allList.get(position).getTitle();
+                        String ListID = allList.get(position).getListid();
+                        Integer ItemQty = allList.get(position).getTotitem();
+                        String dateP = ""+allList.get(position).getDatePlan();
+
+                        //to send data
+                        Intent shareIntent = new Intent();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        }
+
+                        //get data of the items
+                        final String[] allItemName = new String[1];
+                        StringBuffer sb = new StringBuffer();
+                        collectionReferenceI.whereEqualTo("listid", ListID).get()
+                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
+                                            Items item = items.toObject(Items.class);
+
+                                            allItems.add(item);
+                                        }
+
+                                        for (int i = 0; i < allItems.size(); i++)   {
+                                            sb.append("" + (i+1) + ". ").append(allItems.get(i).getItemName()).append('\n');
+                                            //Toast.makeText(context, "" + allItems.get(i).getItemName(), Toast.LENGTH_SHORT).show();
+                                        }
+                                        Toast.makeText(context, "" + sb.toString(), Toast.LENGTH_SHORT).show();
+                                        allItemName[0] = sb.toString();
+
+                                        shareIntent.setAction(Intent.ACTION_SEND);
+                                        //shareIntent.putExtra(Intent.EXTRA_TITLE, "List.txt");
+                                        shareIntent.setType("text/plain");
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT, "Title : " + allList.get(position).getTitle()+
+                                                "\nDate : " + allList.get(position).getDatePlan() +
+                                                "\nTotal Item :" +
+                                                "" +
+                                                " " + allList.get(position).getTotitem() +
+                                                "\nShop : " + allList.get(position).getShopName() +
+                                                "\nList of item :\n" + sb.toString());
+
+                                        context.startActivity(shareIntent);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+
+
+
+
+
+
                         break;
 
+                        //remove List
                     case R.id.menu_remove:
                         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 

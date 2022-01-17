@@ -90,7 +90,8 @@ public class UpdateYololistActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                     @Override
                                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                        if (!queryDocumentSnapshots.isEmpty()) {
+
+
                                             for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
                                                 Items item = items.toObject(Items.class);
                                                 allItems.add(item);
@@ -100,7 +101,6 @@ public class UpdateYololistActivity extends AppCompatActivity {
                                             recyclerView.setAdapter(itemAdapter);
                                             itemAdapter.notifyDataSetChanged();
                                         }
-                                    }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override

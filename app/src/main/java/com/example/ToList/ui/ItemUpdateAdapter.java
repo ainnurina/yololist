@@ -39,6 +39,12 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
     private Context context;
     private List<Items> allItems;
 
+    interface OnItemCheckListener {
+        void onItemCheck(Items item);
+        void onItemUnCheck(Items item);
+    }
+
+
     public ItemUpdateAdapter(Context context, List<Items> allItems) {
         this.context = context;
         this.allItems = allItems;
@@ -105,6 +111,10 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
             }
         });
 
+        //bila dia tick, auto refresh.. the item on top!
+
+
+
         /*
         holder.donecheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -117,10 +127,11 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
 
         if (holder.checked) {
             item.setItemStatus("done purchased");
-            reference.Child(String.valueOf(i+1).setValue(item));
+            //reference.Child(String.valueOf(i+1).setValue(item));
         }
 
          */
+
     }
 
     @Override
@@ -131,8 +142,8 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView itemName;
         public Button buttonminus;
-        //CheckBox donecheck;
-        //boolean checked;
+        CheckBox donecheck;
+        boolean checked;
 
 
         public ViewHolder (View itemView, Context ctx)  {
@@ -141,7 +152,7 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
 
             itemName = itemView.findViewById(R.id.item_name);
             buttonminus = itemView.findViewById(R.id.buttonminus);
-            //donecheck = (CheckBox) itemView.findViewById(R.id.checkedbox);
+            donecheck = (CheckBox) itemView.findViewById(R.id.checkedbox);
 
         }
 

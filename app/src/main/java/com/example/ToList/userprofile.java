@@ -112,11 +112,11 @@ public class userprofile extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                                 Shopper user = document.toObject(Shopper.class);
 
-                                phone.setText(user.getusername());
+                                phone.setText(user.getUsername());
                                 email.setText(user.getEmail());
                                 Name.setText(user.getUserId());
 
-                                Toast.makeText(userprofile.this, "Alhamdullilah"+user.getusername(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(userprofile.this, "Alhamdullilah"+user.getUsername(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

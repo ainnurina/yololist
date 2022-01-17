@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -55,6 +56,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     private EditText etDate;
     private EditText shopName;
     private EditText budget;
+    private CheckBox checkedpurchased;
     DatePickerDialog.OnDateSetListener setListener;
 
 
@@ -71,6 +73,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     private CollectionReference collectionReferenceI = db.collection("Items");
 
     private ArrayList<String> values = new ArrayList<String>();
+    private ArrayList<String> valueschecked = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,11 +119,27 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
             @Override
             public void onClick(View view) {
                 LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                View addView = layoutInflater.inflate(R.layout.row, null);
+                View addView = layoutInflater.inflate(R.layout.item_row, null);
 
                 textOut = addView.findViewById(R.id.textout);
                 textOut.setText(textIn.getText().toString());
+                checkedpurchased = addView.findViewById(R.id.checked);
                 values.add(textIn.getText().toString());
+
+                checkedpurchased.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (checkedpurchased.isChecked())   {
+                            Toast.makeText(PostYololistActivity.this, "Masuk!", Toast.LENGTH_SHORT).show();
+                            valueschecked.add("purchased");
+                        }
+                        else    {
+                            valueschecked.add("not yet purchased");
+                        }
+                    }
+                });
+
 
 
                 Button buttonRemove = (Button) addView.findViewById(R.id.remove);
@@ -228,7 +247,8 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
                                 Items item = new Items();
                                 item.setItemid(keyItem);
                                 item.setItemName(values.get(i));
-                                item.setItemStatus("not yet purchased");
+                                item.setItemStatus(valueschecked.get(i));
+
                                 //item.setItemName(itemName);
 
 

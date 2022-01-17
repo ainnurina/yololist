@@ -1,12 +1,18 @@
 package com.example.ToList;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +33,7 @@ import com.example.ToList.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +44,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -46,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     //variables
     DrawerLayout drawerlayout;
     NavigationView navigationView;
-    Button addlistbutton;
+    Button addlistbutton, button_remind;
     Toolbar toolbar;
     SearchView searchText;
     ArrayList<List> arrayList;
@@ -82,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
+
+        createNotificationChannel();  //for reminder
+
+
         allList = new ArrayList<>();
 
         addlistbutton = (Button)findViewById(R.id.button_add_list2);
@@ -135,6 +151,38 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
 
+        //reminder notification
+        button_remind = findViewById(R.id.button_remind);
+        button_remind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Reminder Set!", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(MainActivity.this, ReminderBroadcast.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
+
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                long timeAtButtonClick = System.currentTimeMillis();
+                long tenSecondsToMillis = 1000 * 10; // 1 seconds = 1000 Milis
+                alarmManager.set(AlarmManager.RTC_WAKEUP,
+                        timeAtButtonClick + tenSecondsToMillis,
+                        pendingIntent);
+            }
+        });
+
+    }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "ToListReminderChannel";
+            String description = "Channel for ToList Reminder";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifyToList", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
 
@@ -237,6 +285,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(MainActivity.this, YoloListActivity.class);
@@ -246,7 +295,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         intent.putExtra("ItemQty", allList.get(position).getTotitem());
         intent.putExtra("DateAdded", allList.get(position).getTimeAdded());
         intent.putExtra("shopName", allList.get(position).getShopName());
-        intent.putExtra("datePlan", new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(allList.get(position).getDatePlan()));
+        //intent.putExtra("datePlan", new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(allList.get(position).getDatePlan()));
+
+        intent.putExtra("datePlan", ""+allList.get(position).getDatePlan());
         intent.putExtra("totalbudget", ""+allList.get(position).getTotalbudget());
         intent.putExtra("totalexpenses", ""+allList.get(position).getTotalexpenses());
 

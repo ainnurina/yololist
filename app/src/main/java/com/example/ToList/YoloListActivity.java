@@ -108,57 +108,6 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-                /*
-        buttonAddNewItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                View addView = layoutInflater.inflate(R.layout.update_item_row, null);
-
-                textOut = addView.findViewById(R.id.item_name);
-                textOut.setText(update_addnewitem.getText().toString());
-                values.add(update_addnewitem.getText().toString());
-
-
-                Button buttonRemove = (Button) addView.findViewById(R.id.buttonminus);
-                View finalAddView = addView;
-                String tempS = textOut.getText().toString().trim();
-                //String name = textIn.getText().toString().trim();
-                buttonRemove.setOnClickListener(new View.OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View v) {
-
-                        for (int i = 0; i <values.size(); i++) {
-                            if ((tempS).equals(values.get(i))) {
-                                values.remove(i);
-                                ((LinearLayout) finalAddView.getParent()).removeView(finalAddView);
-                                break;
-                            }
-                        }
-
-                    }
-                });
-
-                container.addView(addView);
-            }
-        });
-
-
-        authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-
-                } else {
-
-                }
-            }
-        };
-
-                 */
 
     }
 
@@ -285,11 +234,6 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onStart() {
         super.onStart();
-
-        //kena compare listid this dgn listid dlm firestore
-        // listid = listid dlm db
-        //String userid = YololistApi.g;
-        //String LID = ;
 
         collectionReferenceL.whereEqualTo("listid", ListID)
                 .get()

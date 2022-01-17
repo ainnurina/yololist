@@ -5,6 +5,14 @@ package com.example.ToList.model;
  */
 public class Shopper {
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String username;
     public String email;
     private String userId;
@@ -23,9 +31,7 @@ public class Shopper {
         return userId;
     }
 
-    public String getusername() {
-        return username;
-    }
+
 
     public String getEmail() { return email; }
 
@@ -33,9 +39,7 @@ public class Shopper {
         this.userId = userId;
     }
 
-    public void setusername(String userName) {
-        this.username = username;
-    }
+
 
 
     public void setEmail(String email) {
