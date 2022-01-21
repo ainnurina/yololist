@@ -51,7 +51,7 @@ import static android.content.ContentValues.TAG;
 public class YoloListActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText update_title, update_shopName, update_datego, update_addnewitem, update_expenses;
-    Button saveButton, buttonAddNewItem;
+    Button goUpdate, buttonAddNewItem;
     TextView update_budget, vItem, textOut;
     private CheckBox checked;
     private LinearLayout container;
@@ -95,13 +95,12 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
         update_budget = findViewById(R.id.update_budget);
         update_addnewitem = findViewById(R.id.update_addnewitem);
         update_expenses = findViewById(R.id.update_expenses);
-        saveButton = findViewById(R.id.update_savebutton);
-        saveButton.setOnClickListener(this);
+        goUpdate = findViewById(R.id.GoUpdate);
+        goUpdate.setOnClickListener(this);
+
+
         buttonAddNewItem = findViewById(R.id.button_update_add_new_item);
         buttonAddNewItem.setOnClickListener(this);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
 
         allItems = new ArrayList<>();
         recyclerView = findViewById(R.id.recyclerViewItem);
@@ -118,8 +117,19 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
             String currentUserId = YololistApi.getInstance().getUserId();
             String currentUserName = YololistApi.getInstance().getUsername();
 
-            if (v.getId() == R.id.update_savebutton) {
-                updateList(currentUserId);
+            if (v.getId() == R.id.GoUpdate) {
+                Intent intent = new  Intent(YoloListActivity.this, UpdateListDetails.class);
+
+                intent.putExtra("Title", title);
+                intent.putExtra("ListID", ListID);
+                intent.putExtra("ItemQty", itemQty);
+                intent.putExtra("DateAdded", DateAdded);
+                intent.putExtra("shopName", shopName);
+                intent.putExtra("datePlan", ""+datePlan);
+                intent.putExtra("totalbudget", ""+totalbudget);
+                intent.putExtra("totalexpenses", ""+totalexpenses);
+
+                startActivity(intent);
             } else if (v.getId() == R.id.button_update_add_new_item)  {
                 addnewItem(currentUserId);
             }
@@ -135,99 +145,29 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
             String key = reference.push().getKey();
             Items item = new Items();
             item.setItemid(key);
-            item.setItemStatus("not yet purchased");
+            item.setStatus(0);
             item.setItemName(up_newItem);
             item.setListid(ListID);
 
             collectionReferenceI.add(item)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
-
-                            //int totalQtyNow = Integer.parseInt(itemQty)+1; //kena update dalam list
-                            Toast.makeText(YoloListActivity.this, "Item successful added.."+itemQty, Toast.LENGTH_SHORT).show();
-                            //startActivity(new Intent(YoloListActivity.this, MainActivity.class)); // mcm mana nk bg dia show sekali jefinish();
-                            overridePendingTransition( 0, 0);
-                            startActivity(getIntent());
-                            overridePendingTransition( 0, 0);
-                            finish();
-
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(YoloListActivity.this, "Item cannot added on database.", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
-    }
-
-    private void updateList(String currentUserId) {
-
-        title = update_title.getText().toString().trim();
-        shopName = update_shopName.getText().toString().trim();
-        datePlan = update_datego.getText().toString().trim();
-        totalbudget = update_budget.getText().toString().trim();
-        totalexpenses = update_expenses.getText().toString().trim();
-
-        /*--Loop item--*/
-        //count total item & pass at new collection
-        int totitem = 0; //untuk count total
-
-        if (!TextUtils.isEmpty(title)) {
-
-
-            collectionReferenceL.whereEqualTo("listid", ListID).get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful())    {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    com.example.ToList.model.List list = document.toObject(com.example.ToList.model.List.class);
-
-                                    String doc_id = document.getId();
-
-                                    DocumentReference listRef = collectionReferenceL.document(doc_id);
-                                    try {
-                                        listRef.update(
-                                                "title", title,
-                                                "shopName", shopName,
-                                                "totalexpenses", Float.parseFloat(totalexpenses),
-                                                "datePlan", new SimpleDateFormat("dd/MM/yyyy").parse(datePlan)
-                                        ).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful())    {
-                                                    ///update item dari sini!
-
-
-                                                    //update item ke sini!
-                                                    Toast.makeText(YoloListActivity.this, "Alhamdullilah updated", Toast.LENGTH_SHORT).show();
-                                                    startActivity(new Intent(YoloListActivity.this, MainActivity.class));
-                                                    finish();
-                                                }
-                                                else
-                                                    Toast.makeText(YoloListActivity.this, "CUBA LAGI", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
+                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(YoloListActivity.this, "Item Saved", Toast.LENGTH_SHORT).show();
+                                finish();
+                                startActivity(getIntent());
+                            } else {
+                                Toast.makeText(YoloListActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
-
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(YoloListActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-
                 }
             });
         }
-
     }
 
 
@@ -252,8 +192,6 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
                         } else {
                             update_expenses.setText(totalexpenses);
                         }
-
-
 
                         collectionReferenceI.whereEqualTo("listid", ListID)
                                 .get()

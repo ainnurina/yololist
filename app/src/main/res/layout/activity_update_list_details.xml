@@ -1,80 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".YoloListActivity">
-
-<LinearLayout
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    tools:context=".UpdateListDetails">
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/orange_700">
-
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="80dp">
+        android:layout_height="100dp"
+        android:background="@color/orange_700"
+        tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp">
 
             <TextView
-                android:id="@+id/viewtitle"
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="ToList"
-                android:textSize="24sp"
+                android:text="Update List"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-       </RelativeLayout>
-
-    </RelativeLayout>
+    </FrameLayout>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="340dp"
+        android:layout_width="413dp"
+        android:layout_height="547dp"
+        android:layout_marginTop="20dp"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
         tools:targetApi="lollipop">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="List"
-                android:layout_marginBottom="10dp"
-                android:background="@color/orange_200"
-                android:textAlignment="center"
-                android:textSize="22dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -201,7 +181,7 @@ tools:context=".YoloListActivity">
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="352dp"
+                android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
@@ -304,7 +284,7 @@ tools:context=".YoloListActivity">
                     android:layout_marginBottom="0dp"
                     android:background="@drawable/formfield">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/update_budget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -394,118 +374,27 @@ tools:context=".YoloListActivity">
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <Button
-                        android:id="@+id/GoUpdate"
+                        android:id="@+id/update_savebutton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Update"
+                        android:background="@drawable/orange_btn_background"
+                        android:text="Save"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:background="@drawable/orange_btn_background"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-
-
-
-
-    </androidx.cardview.widget.CardView>
-
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="6dp"
-        tools:targetApi="lollipop">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Items"
-                android:layout_marginBottom="10dp"
-                android:background="@color/orange_200"
-                android:textAlignment="center"
-                android:textSize="20dp"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="270dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/formfield"
-                    android:layout_marginBottom="26dp">
-
-                    <EditText
-                        android:id="@+id/update_addnewitem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Add Item"
-                        android:background="@android:color/transparent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.056"
+                        app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.523"
-                        android:textSize="17sp"/>
-
+                        app:layout_constraintVertical_bias="0.94" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <Button
-                    android:id="@+id/button_update_add_new_item"
-                    android:layout_width="40dp"
-                    android:layout_height="42dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="23dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="+"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
             </RelativeLayout>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"/>
-
 
 
         </LinearLayout>
 
+
     </androidx.cardview.widget.CardView>
 
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
-
-
-
-</LinearLayout>
-</ScrollView>

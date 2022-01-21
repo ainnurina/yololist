@@ -127,6 +127,7 @@ public class RegisterActivity extends AppCompatActivity {
             private void createUserEmailAccount(String email, String password, String username) {
                 if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(username)) {
 
+
                     //progressBar.setVisibility(View.VISIBLE);
 
                     firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -167,6 +168,8 @@ public class RegisterActivity extends AppCompatActivity {
                                                                             yololistApi.setUserId(currentUserId);
                                                                             yololistApi.setUsername(name);
                                                                             yololistApi.setEmail(mail);
+
+                                                                            Toast.makeText(RegisterActivity.this, "Successful Registered", Toast.LENGTH_SHORT).show();
 
                                                                             Intent intent = new Intent(RegisterActivity.this,
                                                                                     LoginActivity.class);

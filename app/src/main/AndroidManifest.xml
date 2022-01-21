@@ -15,9 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Yololist"
         tools:replace="android:icon">
-        <activity android:name=".GraphExpensesActivity"></activity>
+        <activity android:name=".UpdateListDetails"></activity>
+        <activity android:name=".GraphExpensesActivity" />
         <activity android:name=".TableExpensesActivity" />
-        <activity android:name=".UpdateYololistActivity" />
         <activity android:name=".YoloListActivity" />
         <activity android:name=".ArchiveActivity" />
         <activity android:name=".PostYololistActivity" />
@@ -32,15 +32,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".ReminderBroadcast"/>
+
+        <receiver android:name=".ReminderBroadcast" />
+
         <activity android:name=".SecondActivity" />
         <activity android:name=".MainActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.ToList.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />

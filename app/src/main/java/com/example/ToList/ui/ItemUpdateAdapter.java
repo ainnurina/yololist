@@ -38,6 +38,7 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
 
     private Context context;
     private List<Items> allItems;
+    private FirebaseFirestore firestore;
 
     interface OnItemCheckListener {
         void onItemCheck(Items item);
@@ -55,6 +56,7 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
     public ItemUpdateAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.update_item_row, viewGroup, false);
+        firestore = FirebaseFirestore.getInstance();
         return new ViewHolder(view, context);
     }
 
@@ -62,76 +64,53 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Items item = allItems.get(position);
         holder.itemName.setText(item.getItemName());
+
+        //get document id
+        String ItemID = allItems.get(position).getItemid();
+        final String[] itemdocId = new String[1];
+
+        firestore.collection("Items").whereEqualTo("itemid", ItemID)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+
+                        if (e != null) {
+                            Log.d("", "Error : " + e.getMessage());
+                        }
+                        for (DocumentChange docL : value.getDocumentChanges()) {
+                            itemdocId[0] = docL.getDocument().getId();
+                        }
+                    }
+                });
+
+
+        //checkbox
+        holder.mCheckBox.setChecked(toBoolean(item.getStatus()));
+        holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    firestore.collection("Items").document(itemdocId[0]).update("status", 1);
+                } else {
+                    firestore.collection("Items").document(itemdocId[0]).update("status", 0);
+                }
+            }
+        });
+
+        //remove
         holder.buttonminus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
-                String ItemID = allItems.get(position).getItemid();
-
-                firebaseFirestore.collection("Items").whereEqualTo("itemid", ItemID)
-                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
-                                if (e != null) {
-                                    Log.d("", "Error : " + e.getMessage());
-                                }
-                                for (DocumentChange docL : value.getDocumentChanges()) {
-                                    docL.getDocument().getId();
-
-                                    firebaseFirestore.collection("Items").document(docL.getDocument().getId())
-                                            .delete()
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful())    {
-                                                        int total = allItems.size() - 1 ; //kena htr value ni utk update dkt list quantity.
-                                                        Toast.makeText(context, "Succesful remove "+item.getItemName(), Toast.LENGTH_SHORT).show();
-
-                                                        ((Activity)context).finish();
-                                                        ((Activity)context).overridePendingTransition( 0, 0);
-                                                        ((Activity)context).startActivity(((Activity)context).getIntent());
-                                                        ((Activity)context).overridePendingTransition( 0, 0);
-
-                                                    } else  {
-                                                        Toast.makeText(context, "Fail to remove item "+item.getItemName(), Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-
-                            }
-                        });
-
+                firestore.collection("Items").document(itemdocId[0]).delete();
+                allItems.remove(position);
+                notifyItemRemoved(position);
             }
         });
+    }
 
-        //bila dia tick, auto refresh.. the item on top!
-
-
-
-        /*
-        holder.donecheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                holder.checked = b;
-            }
-        });
-        holder.checked = holder.donecheck.isChecked();
-
-        if (holder.checked) {
-            item.setItemStatus("done purchased");
-            //reference.Child(String.valueOf(i+1).setValue(item));
-        }
-
-         */
-
+    private boolean toBoolean(int status){
+        return status != 0;
     }
 
     @Override
@@ -142,7 +121,7 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView itemName;
         public Button buttonminus;
-        CheckBox donecheck;
+        CheckBox mCheckBox;
         boolean checked;
 
 
@@ -152,7 +131,7 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
 
             itemName = itemView.findViewById(R.id.item_name);
             buttonminus = itemView.findViewById(R.id.buttonminus);
-            donecheck = (CheckBox) itemView.findViewById(R.id.checkedbox);
+            mCheckBox = (CheckBox) itemView.findViewById(R.id.checkedbox);
 
         }
 

@@ -1,22 +1,20 @@
 package com.example.ToList.model;
 
-public class Items {
+public class Items extends ItemId{
     private String itemid;
     private String itemName;
     private String listid;
-    private String itemStatus;
-
+    private int status;
 
     public Items() {
         super();
     }
 
-    public Items(String itemid, String itemName, String itemStatus, String listid) {
-        super();
+    public Items(String itemid, String itemName, String listid, int status) {
         this.itemid = itemid;
         this.itemName = itemName;
         this.listid = listid;
-        this.itemStatus = itemStatus;
+        this.status = status;
     }
 
     public String getItemid() {
@@ -43,11 +41,13 @@ public class Items {
         this.listid = listid;
     }
 
-    public String getItemStatus() {
-        return itemStatus;
+    public int getStatus() {
+        return status;
     }
 
-    public void setItemStatus(String itemStatus) {
-        this.itemStatus = itemStatus;
+    public void setStatus(int status) {
+        this.status = status;
     }
+
+
 }

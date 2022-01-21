@@ -1,3 +1,4 @@
+
 package com.example.ToList;
 
 import androidx.annotation.NonNull;
@@ -56,7 +57,6 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     private EditText etDate;
     private EditText shopName;
     private EditText budget;
-    private CheckBox checkedpurchased;
     DatePickerDialog.OnDateSetListener setListener;
 
 
@@ -73,7 +73,6 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     private CollectionReference collectionReferenceI = db.collection("Items");
 
     private ArrayList<String> values = new ArrayList<String>();
-    private ArrayList<String> valueschecked = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +84,6 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
         etDate = findViewById(R.id.et_date);
         shopName = findViewById(R.id.post_list_shopName);
         budget = findViewById(R.id.post_list_budget);
-
         textIn = findViewById(R.id.textin);
         saveButton = findViewById(R.id.post_saveButton);
         saveButton.setOnClickListener(this);
@@ -97,6 +95,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        //to get date input in calendar
         etDate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,8 +112,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
             }
         });
 
-
-
+        //to add new item in the list
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,31 +121,13 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
 
                 textOut = addView.findViewById(R.id.textout);
                 textOut.setText(textIn.getText().toString());
-                checkedpurchased = addView.findViewById(R.id.checked);
                 values.add(textIn.getText().toString());
-
-                checkedpurchased.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        if (checkedpurchased.isChecked())   {
-                            Toast.makeText(PostYololistActivity.this, "Masuk!", Toast.LENGTH_SHORT).show();
-                            valueschecked.add("purchased");
-                        }
-                        else    {
-                            valueschecked.add("not yet purchased");
-                        }
-                    }
-                });
-
-
 
                 Button buttonRemove = (Button) addView.findViewById(R.id.remove);
                 View finalAddView = addView;
                 String tempS = textOut.getText().toString().trim();
                 //String name = textIn.getText().toString().trim();
                 buttonRemove.setOnClickListener(new View.OnClickListener() {
-
 
                     @Override
                     public void onClick(View v) {
@@ -239,19 +219,12 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
                             for (int i = 0; i < values.size(); i++) {
                                 DatabaseReference referenceI = FirebaseDatabase.getInstance().getReference().child("Items");
 
-
                                 String keyItem = referenceI.push().getKey();
-                                //itemName[i] = textOut.get
-                                // Text().toString().trim();
 
                                 Items item = new Items();
                                 item.setItemid(keyItem);
                                 item.setItemName(values.get(i));
-                                item.setItemStatus(valueschecked.get(i));
-
-                                //item.setItemName(itemName);
-
-
+                                item.setStatus(0);
                                 item.setListid(key);
 
                                 collectionReferenceI.add(item)
