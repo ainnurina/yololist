@@ -1,8 +1,5 @@
 package com.example.ToList;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ToList.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private EditText userNameEditText;
     private EditText confirmpasswordEditText;
+    private EditText phoneNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.password_account);
         userNameEditText = findViewById(R.id.profileEmail);
         confirmpasswordEditText = findViewById(R.id.confirmpassword);
+        phoneNum = findViewById(R.id.phonenumber);
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -100,14 +102,22 @@ public class RegisterActivity extends AppCompatActivity {
 
                         }
 
+                        if (!Patterns.PHONE.matcher(phoneNum.getText().toString().trim()).matches())   {
+                            phoneNum.setError("Enter valid phone number");
+                            phoneNum.requestFocus();
+                            return;
+                        }
+
                         if  (!TextUtils.isEmpty(emailEditText.getText().toString())
                                 && !TextUtils.isEmpty(passwordEditText.getText().toString())
-                                && !TextUtils.isEmpty(userNameEditText.getText().toString())) {
+                                && !TextUtils.isEmpty(userNameEditText.getText().toString())
+                                && !TextUtils.isEmpty(phoneNum.getText().toString())) {
 
                             String email = emailEditText.getText().toString().trim();
                             String password = passwordEditText.getText().toString().trim();
                             String username = userNameEditText.getText().toString().trim();
-                            createUserEmailAccount(email, password, username);
+                            String phoneno = phoneNum.getText().toString().trim();
+                            createUserEmailAccount(email, password, username, phoneno);
 
                         }else {
                             Toast.makeText(RegisterActivity.this,
@@ -124,9 +134,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
 
-            private void createUserEmailAccount(String email, String password, String username) {
-                if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(username)) {
-
+            private void createUserEmailAccount(String email, String password, String username, String phoneno) {
+                if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(phoneno)) {
 
                     //progressBar.setVisibility(View.VISIBLE);
 
@@ -145,6 +154,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         userObj.put("userId", currentUserId);
                                         userObj.put("username", username);
                                         userObj.put("email", email);
+                                        userObj.put("phoneno", phoneno);
                                         //userObj.put("password", password)
 
                                         //save ato our firestore database
@@ -168,6 +178,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                                             yololistApi.setUserId(currentUserId);
                                                                             yololistApi.setUsername(name);
                                                                             yololistApi.setEmail(mail);
+                                                                            yololistApi.setPhoneno(phoneno);
 
                                                                             Toast.makeText(RegisterActivity.this, "Successful Registered", Toast.LENGTH_SHORT).show();
 
@@ -175,6 +186,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                                                     LoginActivity.class);
                                                                             intent.putExtra("username", name);
                                                                             intent.putExtra("userId", currentUserId);
+                                                                            intent.putExtra("phoneNo", phoneno);
                                                                             startActivity(intent);
 
                                                                         }else{

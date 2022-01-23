@@ -27,7 +27,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="233dp"
+            android:layout_height="213dp"
             android:background="@color/orange_700">
 
 
@@ -35,13 +35,12 @@
                 android:layout_width="139dp"
                 android:layout_height="139dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="45dp"
                 android:src="@drawable/logo" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:layout_marginTop="195dp"
+                android:layout_marginTop="176dp"
                 android:background="#FF983B">
                 <TextView
                     android:layout_width="wrap_content"
@@ -81,7 +80,7 @@
                 android:paddingLeft="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="12sp"/>
+                android:textSize="15sp"/>
 
             <!--Icon-->
             <ImageView
@@ -120,7 +119,7 @@
                 android:paddingLeft="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="12sp"/>
+                android:textSize="15sp"/>
 
             <!--Icon-->
             <ImageView
@@ -159,7 +158,7 @@
                 android:paddingLeft="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="12sp"/>
+                android:textSize="15sp"/>
 
             <!--Icon-->
             <ImageView
@@ -192,13 +191,13 @@
                 android:hint="Confirm Password"
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionDone"
-                android:selectAllOnFocus="true"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:paddingLeft="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:textSize="12sp"/>
+                android:selectAllOnFocus="true"
+                android:textSize="15sp" />
 
             <!--Icon-->
             <ImageView
@@ -209,6 +208,45 @@
                 android:layout_marginLeft="17dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/verified_icon"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="13.7dp"
+            android:layout_marginRight="62dp"
+            android:background="@color/orange_200">
+
+            <!--Input-->
+            <EditText
+                android:id="@+id/phonenumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/phonenumber_icon"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/poppins"
+                android:hint="Phone Number"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionDone"
+                android:selectAllOnFocus="true"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingLeft="17dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textSize="15sp"/>
+
+            <!--Icon-->
+            <ImageView
+                android:id="@+id/phonenumber_icon"
+                android:layout_width="14.7dp"
+                android:layout_height="10.3dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_phone_iphone_24"/>
 
         </RelativeLayout>
 

@@ -6,6 +6,8 @@ public class YololistApi extends Application {
     private String username;
     private String userId;
     private String email;
+
+    private String phoneno;
     private static YololistApi instance;
 
     public static YololistApi getInstance()  {
@@ -40,6 +42,14 @@ public class YololistApi extends Application {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoneno() {
+        return phoneno;
+    }
+
+    public void setPhoneno(String phoneno) {
+        this.phoneno = phoneno;
     }
 
 }

@@ -1,22 +1,19 @@
 package com.example.ToList;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ToList.model.Items;
 import com.example.ToList.ui.ItemUpdateAdapter;
@@ -34,23 +31,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import util.YololistApi;
 
-import static android.content.ContentValues.TAG;
-
 public class YoloListActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText update_title, update_shopName, update_datego, update_addnewitem, update_expenses;
+    TextView view_title, view_shopName, view_datego, update_addnewitem, view_expenses;
     Button goUpdate, buttonAddNewItem;
     TextView update_budget, vItem, textOut;
     private CheckBox checked;
@@ -89,12 +77,12 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
         totalexpenses = getIntent().getStringExtra("totalexpenses");
 
         //get element user interface id
-        update_title = findViewById(R.id.update_title);
-        update_shopName = findViewById(R.id.update_shopName);
-        update_datego = findViewById(R.id.update_datego);
-        update_budget = findViewById(R.id.update_budget);
+        view_title = findViewById(R.id.view_title);
+        view_shopName = findViewById(R.id.view_shopName);
+        view_datego = findViewById(R.id.view_datego);
+        update_budget = findViewById(R.id.view_budget);
         update_addnewitem = findViewById(R.id.update_addnewitem);
-        update_expenses = findViewById(R.id.update_expenses);
+        view_expenses = findViewById(R.id.view_expenses);
         goUpdate = findViewById(R.id.GoUpdate);
         goUpdate.setOnClickListener(this);
 
@@ -182,15 +170,15 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         //settexttitle
 
-                        update_title.setText(title);
-                        update_shopName.setText(shopName);
-                        update_datego.setText(datePlan);
+                        view_title.setText(title);
+                        view_shopName.setText(shopName);
+                        view_datego.setText(datePlan);
                         update_budget.setText(totalbudget);
 
                         if (totalexpenses.equalsIgnoreCase("null"))   {
-                            update_expenses.setText("0");
+                            view_expenses.setText("0");
                         } else {
-                            update_expenses.setText(totalexpenses);
+                            view_expenses.setText(totalexpenses);
                         }
 
                         collectionReferenceI.whereEqualTo("listid", ListID)

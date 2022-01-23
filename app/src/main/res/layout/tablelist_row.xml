@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="1,2,3,4,5">
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/table_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:textSize="12sp"
+            android:layout_weight="2.5"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/table_listname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:textSize="12sp"
+            android:layout_weight="4"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/table_listbudget"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:textSize="12sp"
+            android:layout_weight="4"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/table_listexpenses"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:textSize="12sp"
+            android:layout_weight="4.5"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/table_liststatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:textSize="12sp"
+            android:layout_weight="4"
+            android:gravity="center_horizontal" />
+
+    </TableRow>
+
+</TableLayout>

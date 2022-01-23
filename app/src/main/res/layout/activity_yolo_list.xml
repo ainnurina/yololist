@@ -4,7 +4,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
-android:layout_height="match_parent"
+android:layout_height="wrap_content"
 tools:context=".YoloListActivity">
 
 <LinearLayout
@@ -16,8 +16,6 @@ tools:context=".YoloListActivity">
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/orange_700">
-
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -50,37 +48,38 @@ tools:context=".YoloListActivity">
 
     </RelativeLayout>
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="340dp"
+        android:layout_height="280dp"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="6dp"
+        android:background="@color/orange_200"
         tools:targetApi="lollipop">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="List"
-                android:layout_marginBottom="10dp"
-                android:background="@color/orange_200"
                 android:textAlignment="center"
-                android:textSize="22dp"/>
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="19dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginRight="10dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -100,6 +99,7 @@ tools:context=".YoloListActivity">
                         android:inputType="text"
                         android:maxLines="1"
                         android:text="Title              :"
+                        android:textStyle="bold"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -110,22 +110,18 @@ tools:context=".YoloListActivity">
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="242dp"
+                    android:layout_width="244dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginEnd="0dp"
-                    android:layout_marginBottom="0dp"
-                    android:background="@drawable/formfield">
+                    android:layout_marginBottom="0dp">
 
-                    <EditText
-                        android:id="@+id/update_title"
+                    <TextView
+                        android:id="@+id/view_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="Enter list title"
-                        android:inputType="text"
-                        android:maxLines="1"
                         android:textSize="17sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -142,7 +138,7 @@ tools:context=".YoloListActivity">
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginRight="10dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -161,33 +157,30 @@ tools:context=".YoloListActivity">
                         android:background="@android:color/transparent"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:text="Shop Name :"
+                        android:text="Shop             :"
                         android:textSize="16sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.219"
+                        app:layout_constraintHorizontal_bias="0.044"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="241dp"
+                    android:layout_width="244dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginEnd="0dp"
-                    android:layout_marginBottom="0dp"
-                    android:background="@drawable/formfield">
+                    android:layout_marginBottom="0dp">
 
-                    <EditText
-                        android:id="@+id/update_shopName"
+                    <TextView
+                        android:id="@+id/view_shopName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="Enter shop name"
-                        android:inputType="text"
-                        android:maxLines="1"
                         android:textSize="17sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -204,7 +197,7 @@ tools:context=".YoloListActivity">
                 android:layout_width="352dp"
                 android:layout_height="38dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginRight="10dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -225,6 +218,7 @@ tools:context=".YoloListActivity">
                         android:maxLines="1"
                         android:text="Date Go        :"
                         android:textSize="16sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -234,22 +228,18 @@ tools:context=".YoloListActivity">
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="241dp"
+                    android:layout_width="245dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginEnd="0dp"
-                    android:layout_marginBottom="0dp"
-                    android:background="@drawable/formfield">
+                    android:layout_marginBottom="0dp">
 
-                    <EditText
-                        android:id="@+id/update_datego"
+                    <TextView
+                        android:id="@+id/view_datego"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="Enter date shopping"
-                        android:inputType="text"
-                        android:maxLines="1"
                         android:textSize="17sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -266,7 +256,7 @@ tools:context=".YoloListActivity">
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginRight="10dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -282,10 +272,10 @@ tools:context=".YoloListActivity">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:text="Budget :"
+                        android:text="Budget(RM):"
+                        android:textStyle="bold"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -296,21 +286,17 @@ tools:context=".YoloListActivity">
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="95dp"
+                    android:layout_width="77dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="185dp"
-                    android:layout_marginBottom="0dp"
-                    android:background="@drawable/formfield">
+                    android:layout_marginEnd="167dp"
+                    android:layout_marginBottom="0dp">
 
                     <TextView
-                        android:id="@+id/update_budget"
+                        android:id="@+id/view_budget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:inputType="text"
-                        android:maxLines="1"
                         android:textSize="17sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -322,10 +308,10 @@ tools:context=".YoloListActivity">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="39dp"
+                    android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="103dp"
+                    android:layout_marginEnd="84dp"
                     android:layout_marginBottom="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -337,6 +323,7 @@ tools:context=".YoloListActivity">
                         android:inputType="text"
                         android:maxLines="1"
                         android:text="Expenses :"
+                        android:textStyle="bold"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -347,24 +334,21 @@ tools:context=".YoloListActivity">
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="95dp"
+                    android:layout_width="64dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginEnd="2dp"
                     android:layout_marginBottom="0dp"
-                    android:background="@drawable/formfield"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
 
-                    <EditText
-                        android:id="@+id/update_expenses"
+                    <TextView
+                        android:id="@+id/view_expenses"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:inputType="text"
-                        android:maxLines="1"
                         android:textSize="17sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -380,7 +364,7 @@ tools:context=".YoloListActivity">
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginRight="20dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -388,8 +372,7 @@ tools:context=".YoloListActivity">
                     android:layout_height="42dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="3dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
@@ -397,13 +380,15 @@ tools:context=".YoloListActivity">
                         android:id="@+id/GoUpdate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/orange_btn_background"
                         android:text="Update"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:background="@drawable/orange_btn_background"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.25" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </RelativeLayout>
 
@@ -414,7 +399,7 @@ tools:context=".YoloListActivity">
 
 
 
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.cardview.widget.CardView
@@ -439,10 +424,10 @@ tools:context=".YoloListActivity">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Items"
+                android:textAlignment="center"
                 android:layout_marginBottom="10dp"
                 android:background="@color/orange_200"
-                android:textAlignment="center"
-                android:textSize="20dp"/>
+                android:textSize="19dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"

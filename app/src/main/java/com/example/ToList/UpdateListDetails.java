@@ -82,7 +82,6 @@ public class UpdateListDetails extends AppCompatActivity {
 
         /*--Loop item--*/
         //count total item & pass at new collection
-        int totitem = 0; //untuk count total
 
         if (!TextUtils.isEmpty(title)) {
 
@@ -107,7 +106,7 @@ public class UpdateListDetails extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful())    {
-                                                    Toast.makeText(UpdateListDetails.this, "Alhamdullilah updated", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(UpdateListDetails.this, "z", Toast.LENGTH_SHORT).show();
                                                     startActivity(new Intent(UpdateListDetails.this, MainActivity.class));
                                                     finish();
                                                 }
