@@ -1,9 +1,6 @@
 
 package com.example.ToList;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +8,16 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.View.OnClickListener;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ToList.model.Items;
 import com.example.ToList.model.List;
@@ -34,7 +33,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
 
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,8 +40,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import util.YololistApi;
-
-import static java.lang.Boolean.parseBoolean;
 
 public class PostYololistActivity extends AppCompatActivity implements OnClickListener {
 
@@ -54,6 +50,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
     private EditText textIn;
     private LinearLayout container;
     private TextView textOut;
+
     private EditText etDate;
     private EditText shopName;
     private EditText budget;

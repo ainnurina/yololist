@@ -175,7 +175,9 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
                         view_datego.setText(datePlan);
                         update_budget.setText(totalbudget);
 
-                        if (totalexpenses.equalsIgnoreCase("null"))   {
+                        Toast.makeText(YoloListActivity.this, "amount float"+Float.parseFloat(totalexpenses), Toast.LENGTH_SHORT).show();
+
+                        if (Float.parseFloat(totalexpenses) == 0)   {
                             view_expenses.setText("0");
                         } else {
                             view_expenses.setText(totalexpenses);

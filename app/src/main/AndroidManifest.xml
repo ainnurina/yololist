@@ -35,7 +35,6 @@
 
         <receiver android:name=".ReminderBroadcast" />
 
-        <activity android:name=".SecondActivity" />
         <activity android:name=".MainActivity" />
 
         <provider

@@ -25,10 +25,6 @@ public class userprofile extends AppCompatActivity {
 
     private CollectionReference collectionReference = db.collection("Users");
 
-
-    //StorageReference storageReference;
-    // CollectionReference collectionReference = db.collection("Users");
-
     String userId;
 
 
