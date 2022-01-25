@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +32,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import util.YololistApi;
@@ -44,6 +48,8 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
     private CheckBox checked;
     private LinearLayout container;
     String title, ListID, itemQty, DateAdded, shopName, datePlan, totalbudget, totalexpenses;
+    Timestamp dp;
+    long dpDate;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -106,6 +112,16 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
             String currentUserName = YololistApi.getInstance().getUsername();
 
             if (v.getId() == R.id.GoUpdate) {
+
+                //date
+                SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
+                try {
+                    dp = new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(datePlan));
+                    dpDate = dp.getSeconds()*1000;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 Intent intent = new  Intent(YoloListActivity.this, UpdateListDetails.class);
 
                 intent.putExtra("Title", title);
@@ -113,7 +129,7 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
                 intent.putExtra("ItemQty", itemQty);
                 intent.putExtra("DateAdded", DateAdded);
                 intent.putExtra("shopName", shopName);
-                intent.putExtra("datePlan", ""+datePlan);
+                intent.putExtra("datePlan", sfd.format(new Date(dpDate)));
                 intent.putExtra("totalbudget", ""+totalbudget);
                 intent.putExtra("totalexpenses", ""+totalexpenses);
 
@@ -169,19 +185,25 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         //settexttitle
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                com.example.ToList.model.List list = document.toObject(com.example.ToList.model.List.class);
 
-                        view_title.setText(title);
-                        view_shopName.setText(shopName);
-                        view_datego.setText(datePlan);
-                        update_budget.setText(totalbudget);
+                                view_title.setText(list.getTitle());
+                                view_shopName.setText(list.getShopName());
+                                update_budget.setText("RM"+list.getTotalbudget());
+                                long t = list.getDatePlan().getSeconds()*1000;
+                                SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
+                                view_datego.setText(sfd.format(new Date(t)));
 
-                        Toast.makeText(YoloListActivity.this, "amount float"+Float.parseFloat(totalexpenses), Toast.LENGTH_SHORT).show();
-
-                        if (Float.parseFloat(totalexpenses) == 0)   {
-                            view_expenses.setText("0");
-                        } else {
-                            view_expenses.setText(totalexpenses);
+                                if (Float.parseFloat(totalexpenses) == 0)   {
+                                    view_expenses.setText("0");
+                                } else {
+                                    view_expenses.setText("RM"+totalexpenses);
+                                }
+                            }
                         }
+
 
                         collectionReferenceI.whereEqualTo("listid", ListID)
                                 .get()

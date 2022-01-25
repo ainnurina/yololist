@@ -2,16 +2,13 @@ package com.example.ToList.model;
 
 import com.google.firebase.Timestamp;
 
-import java.sql.Time;
-import java.util.Date;
-
 public class List {
     private String listid;
     private String title;
     private Timestamp timeAdded;
     private int totitem;
     private String shopName;
-    private Date datePlan;
+    private Timestamp datePlan;
     private Float totalbudget;
     private Float totalexpenses;
     private String userId;
@@ -21,7 +18,7 @@ public class List {
         super();
     }
 
-    public List(String listid, String title, Timestamp timeAdded, int totalitem, String shopName, Date datePlan, Float totalbudget, Float totalexpenses, String userId) {
+    public List(String listid, String title, Timestamp timeAdded, int totalitem, String shopName, Timestamp datePlan, Float totalbudget, Float totalexpenses, String userId) {
         this.listid = listid;
         this.title = title;
         this.timeAdded = timeAdded;
@@ -73,9 +70,9 @@ public class List {
         this.userId = userId;
     }
 
-    public Date getDatePlan() { return datePlan; }
+    public Timestamp getDatePlan() { return datePlan; }
 
-    public void setDatePlan(Date datePlan) { this.datePlan = datePlan;}
+    public void setDatePlan(Timestamp datePlan) { this.datePlan = datePlan;}
 
     public String getShopName() { return shopName; }
 

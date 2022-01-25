@@ -1,7 +1,6 @@
 package com.example.ToList;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -25,7 +25,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import util.YololistApi;
 
@@ -33,7 +32,7 @@ public class UpdateListDetails extends AppCompatActivity {
     EditText update_title, update_shopName, update_datego, update_addnewitem, update_expenses, update_budget;
     String title, ListID, itemQty, DateAdded, shopName, datePlan, totalbudget, totalexpenses;
     Button saveButton;
-    Date newdate;
+    Timestamp newdate;
 
     private FirebaseFirestore db;
     private CollectionReference collectionReferenceL;
@@ -109,10 +108,11 @@ public class UpdateListDetails extends AppCompatActivity {
         datePlan = update_datego.getText().toString().trim();
 
         try {
-            newdate = new SimpleDateFormat("dd/MM/yyyy").parse(datePlan);
+             newdate = new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(datePlan));
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
 
         /*--Loop item--*/
         //count total item & pass at new collection
@@ -140,7 +140,7 @@ public class UpdateListDetails extends AppCompatActivity {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     Toast.makeText(UpdateListDetails.this, "Succesfully Updated", Toast.LENGTH_SHORT).show();
-                                                    Intent i = new Intent(UpdateListDetails.this, YoloListActivity.class);
+                                                    finish();
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -170,6 +170,7 @@ public class UpdateListDetails extends AppCompatActivity {
 
                         update_title.setText(title);
                         update_shopName.setText(shopName);
+
                         update_datego.setText(datePlan);
                         update_budget.setText(totalbudget);
 

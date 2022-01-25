@@ -141,6 +141,7 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
                 });
 
                 container.addView(addView);
+
             }
         });
 
@@ -185,24 +186,23 @@ public class PostYololistActivity extends AppCompatActivity implements OnClickLi
 
         if (!TextUtils.isEmpty(title)) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("List");
-
-
             String key = reference.push().getKey();
+
+            //insert list into db
             List list = new List();
             list.setListid(key);
             list.setTitle(title);
             list.setTotitem(values.size());
-            list.setTimeAdded(new Timestamp(new Date()));
-            try {
-                list.setDatePlan(new SimpleDateFormat("dd/MM/yyyy").parse(dateplan));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
             list.setShopName(shopnamelocation);
             list.setTotalbudget(Float.parseFloat(totbudget));
             list.setTotalexpenses(Float.parseFloat("0.00"));
-
             list.setUserId(currentUserId);
+            list.setTimeAdded(new Timestamp(new Date()));
+            try {
+                list.setDatePlan(new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(dateplan)));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             //invoke collectionReference
             collectionReference.add(list)

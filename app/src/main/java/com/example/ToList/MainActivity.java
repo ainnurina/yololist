@@ -1,12 +1,5 @@
 package com.example.ToList;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -22,7 +15,13 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,7 +32,6 @@ import com.example.ToList.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -44,12 +42,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.Date;
 
 import util.YololistApi;
 
@@ -290,14 +284,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     public void onItemClick(int position) {
         Intent intent = new Intent(MainActivity.this, YoloListActivity.class);
 
+        long t = (allList.get(position).getDatePlan().getSeconds())*1000;
+        SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
+
         intent.putExtra("Title", allList.get(position).getTitle());
         intent.putExtra("ListID", allList.get(position).getListid());
         intent.putExtra("ItemQty", allList.get(position).getTotitem());
         intent.putExtra("DateAdded", allList.get(position).getTimeAdded());
         intent.putExtra("shopName", allList.get(position).getShopName());
-        //intent.putExtra("datePlan", new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(allList.get(position).getDatePlan()));
-
-        intent.putExtra("datePlan", ""+allList.get(position).getDatePlan());
+        intent.putExtra("datePlan", sfd.format(new Date(t)));
         intent.putExtra("totalbudget", ""+allList.get(position).getTotalbudget());
         intent.putExtra("totalexpenses", ""+allList.get(position).getTotalexpenses());
 

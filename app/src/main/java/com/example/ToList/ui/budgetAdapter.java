@@ -41,7 +41,7 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
             holder.table_listbudget.setText(""+list.getTotalbudget());
             holder.table_listexpenses.setText(""+list.getTotalexpenses());
             holder.table_liststatus.setText("belom kira");
-        i++;
+            i++;
     }
 
     @Override

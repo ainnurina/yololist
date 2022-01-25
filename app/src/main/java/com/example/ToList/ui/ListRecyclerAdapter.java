@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ToList.MainActivity;
 import com.example.ToList.R;
-
 import com.example.ToList.model.Items;
 import com.example.ToList.model.List;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,7 +34,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.ViewHolder> implements Filterable {
     private final RecyclerViewInterface recyclerViewInterface;
@@ -73,15 +74,20 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ListRecyclerAdapter.ViewHolder viewHolder, int position) {
+
         //allList.clear();
         List list = allList.get(position);
+
+        long t = list.getDatePlan().getSeconds()*1000;
+        SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
+
         viewHolder.title.setText(list.getTitle());
         viewHolder.itemqty.setText(""+list.getTotitem()+" items");
-
         viewHolder.budgetshop.setText("Estimate budget RM"+list.getTotalbudget());
+        viewHolder.placeshop.setText("Shop at "+list.getShopName()+" on "+sfd.format(new Date(t)));
+        String timeAgo = (String) DateUtils.getRelativeTimeSpanString(list.getTimeAdded().getSeconds()*1000);
+        viewHolder.dateAdded.setText("Created at "+timeAgo);
 
-        //viewHolder.dateshop.setText("Shop on "+new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(list.getDatePlan()));
-        viewHolder.placeshop.setText("Shop at "+list.getShopName());
         viewHolder.txt_option.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(context, viewHolder.txt_option);
             popupMenu.inflate(R.menu.option_menu);
@@ -89,19 +95,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
                 switch (menuItem.getItemId()) {
                     //share List
                     case R.id.menu_share:
-                        /*
-                        Intent intent = new Intent(context, UpdateYololistActivity.class);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        }
-                        intent.putExtra("Title", allList.get(position).getTitle());
-                        intent.putExtra("ListID", allList.get(position).getListid());
-                        intent.putExtra("ItemQty", allList.get(position).getTotitem());
-                        intent.putExtra("DateAdded", allList.get(position).getTimeAdded());
-                        context.startActivity(intent);
-
-                         */
-                        //for .txt file
                         String title = allList.get(position).getTitle();
                         String ListID = allList.get(position).getListid();
                         Integer ItemQty = allList.get(position).getTotitem();
@@ -153,12 +146,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
 
                             }
                         });
-
-
-
-
-
-
                         break;
 
                         //remove List
@@ -247,13 +234,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
             popupMenu.show();
         });
 
-        //String timeAgo = (String) DateUtils.getRelativeTimeSpanString(list.
-        //       getTimeAdded().getSeconds()*1000);
-        //viewHolder.dateAdded.setText(list.getTimeAdded());
-        String timeAgo = (String) DateUtils.getRelativeTimeSpanString(list.getTimeAdded().getSeconds()*1000);
-
-        viewHolder.dateAdded.setText("Created at "+timeAgo);
-
     }
 
     @Override
@@ -313,7 +293,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
             dateAdded = itemView.findViewById(R.id.dateadded);
             txt_option = itemView.findViewById(R.id.txt_option);
             placeshop = itemView.findViewById(R.id.placetoshop);
-            dateshop = itemView.findViewById(R.id.datetoshop);
             budgetshop = itemView.findViewById(R.id.budgettoshop);
 
             itemView.setOnClickListener(new View.OnClickListener() {
