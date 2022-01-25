@@ -184,6 +184,7 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Toast.makeText(YoloListActivity.this, "Masuk dari reminder"+ListID, Toast.LENGTH_SHORT).show();
                         //settexttitle
                         if (!queryDocumentSnapshots.isEmpty()) {
                             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
@@ -196,10 +197,10 @@ public class YoloListActivity extends AppCompatActivity implements View.OnClickL
                                 SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
                                 view_datego.setText(sfd.format(new Date(t)));
 
-                                if (Float.parseFloat(totalexpenses) == 0)   {
+                                if (Float.parseFloat(""+list.getTotalexpenses()) == 0)   {
                                     view_expenses.setText("0");
                                 } else {
-                                    view_expenses.setText("RM"+totalexpenses);
+                                    view_expenses.setText("RM"+list.getTotalexpenses());
                                 }
                             }
                         }
