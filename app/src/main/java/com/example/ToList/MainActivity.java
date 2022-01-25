@@ -1,8 +1,6 @@
 package com.example.ToList;
 
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
@@ -89,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             startActivity(intent);
         }
 
-        createNotificationChannel();  //for reminder
+        //createNotificationChannel();  //for reminder
 
 
         allList = new ArrayList<>();
@@ -166,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         });
 
     }
+    /*
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "ToListReminderChannel";
@@ -178,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+     */
 
 
     @Override
