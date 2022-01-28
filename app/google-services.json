@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "289343375707",
+    "project_id": "yololist-fab13",
+    "storage_bucket": "yololist-fab13.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289343375707:android:11c4a37b9f02294197327e",
+        "android_client_info": {
+          "package_name": "com.example.ToListApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289343375707-58urhuvj9ihd12cbt3dff0bh9rl0ouci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVH88SymnYnLekvQ4jfkecNN-SDfAk73w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289343375707-58urhuvj9ihd12cbt3dff0bh9rl0ouci.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

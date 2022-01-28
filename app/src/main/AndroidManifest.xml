@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.ToList">
+    package="com.example.ToListApp">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,16 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Yololist"
         tools:replace="android:icon">
-        <activity android:name=".UpdateListDetails"></activity>
-        <activity android:name=".GraphExpensesActivity" />
-        <activity android:name=".TableExpensesActivity" />
-        <activity android:name=".YoloListActivity" />
-        <activity android:name=".ArchiveActivity" />
-        <activity android:name=".PostYololistActivity" />
-        <activity android:name=".userprofile" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".UpdateListActivity"></activity>
+        <activity android:name=".viewBudgetActivity" />
+        <activity android:name=".UpdateItemsActivity" />
+        <activity android:name=".AddListActivity" />
+        <activity android:name=".userprofileActivity" />
+        <activity android:name="com.example.ToListApp.RegisterActivity" />
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name="com.example.ToListApp.ui.login.LoginActivity"
             android:label="ToList">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,13 +31,11 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".ReminderBroadcast" />
-
-        <activity android:name=".MainActivity" />
+        <activity android:name="com.example.ToListApp.MainActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.ToList.fileprovider"
+            android:authorities="com.example.ToListApp.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -50,6 +46,8 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <receiver android:name="com.example.ToListApp.ReminderBroadcast"/>
     </application>
 
 </manifest>

@@ -13,11 +13,6 @@
             android:icon="@drawable/profile_icon"
             android:title="Profile" />
 
-        <item
-            android:id="@+id/nav_archive"
-            android:icon="@drawable/archive_icon"
-            android:title="Archive" />
-
     </group>
 
 
@@ -49,12 +44,7 @@
                 <item
                     android:id="@+id/nav_table"
                     android:icon="@drawable/signup_icon"
-                    android:title="Spending Details " />
-
-                <item
-                    android:id="@+id/nav_graph"
-                    android:icon="@drawable/login_icon"
-                    android:title="Graph" />
+                    android:title="Analysis Budget " />
 
             </group>
         </menu>
