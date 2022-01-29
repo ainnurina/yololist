@@ -1,6 +1,7 @@
 package com.example.ToListApp.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ToListApp.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder>   {
 
     private static Context context;
     private List<com.example.ToListApp.model.List> allList;
-    int i = 1;
+    int i = 1, countwithinbudget = 0, countoverbudget = 0;
+    float sumbudget, sumexpenses;
+
+
 
     public budgetAdapter(Context context, List<com.example.ToListApp.model.List> allList) {
         this.context = context;
@@ -35,13 +41,29 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            com.example.ToListApp.model.List list = allList.get(position);
-            holder.table_no.setText(""+i);
-            holder.table_listname.setText(list.getTitle());
-            holder.table_listbudget.setText(""+list.getTotalbudget());
-            holder.table_listexpenses.setText(""+list.getTotalexpenses());
-            holder.table_liststatus.setText("belom kira");
-            i++;
+         com.example.ToListApp.model.List list = allList.get(position);
+
+        long t = list.getTimeAdded().getSeconds()*1000;
+        SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
+
+        holder.table_no.setText(""+i);
+        holder.table_listname.setText(list.getTitle());
+        holder.table_listbudget.setText(""+list.getTotalbudget());
+        holder.table_listexpenses.setText(""+list.getTotalexpenses());
+        //set status & count qty status
+        if (list.getTotalbudget() >= list.getTotalexpenses())  {
+            holder.table_liststatus.setText("within budget");
+        }
+        else if (list.getTotalexpenses() >= list.getTotalbudget())  {
+            holder.table_liststatus.setText("overbudget");
+            holder.table_liststatus.setTextColor(Color.RED);
+        }
+
+        holder.table_listdate.setText(""+sfd.format(new Date(t)));
+
+        //calculate gap between
+
+        i++;
     }
 
     @Override
@@ -50,7 +72,8 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView table_no, table_listname, table_listbudget, table_listexpenses, table_liststatus;
+        TextView table_no, table_listname, table_listbudget, table_listexpenses, table_liststatus, table_listdate;
+        TextView sumbudget, sumexpenses, qtylistwithinbudget, qtylistoverbudget, largestlistitle;
 
         public ViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
@@ -61,6 +84,7 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
             table_listbudget = itemView.findViewById(R.id.table_listbudget);
             table_listexpenses = itemView.findViewById(R.id.table_listexpenses);
             table_liststatus = itemView.findViewById(R.id.table_liststatus);
+            table_listdate = itemView.findViewById(R.id.table_listdate);
 
         }
     }

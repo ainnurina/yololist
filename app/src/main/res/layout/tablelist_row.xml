@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/orange_200"
     android:stretchColumns="1,2,3,4,5">
 
     <TableRow>
@@ -11,16 +12,25 @@
             android:id="@+id/table_no"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:padding="5sp"
+            android:textSize="12sp"
+            android:layout_weight="1.5"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/table_listdate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:padding="10sp"
             android:textSize="12sp"
-            android:layout_weight="2.5"
+            android:layout_weight="4"
             android:gravity="center_horizontal" />
 
         <TextView
             android:id="@+id/table_listname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="10sp"
+            android:padding="5sp"
             android:textSize="12sp"
             android:layout_weight="4"
             android:gravity="center_horizontal" />
@@ -38,16 +48,16 @@
             android:id="@+id/table_listexpenses"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="10sp"
+            android:padding="5sp"
             android:textSize="12sp"
-            android:layout_weight="4.5"
+            android:layout_weight="4"
             android:gravity="center_horizontal" />
 
         <TextView
             android:id="@+id/table_liststatus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="10sp"
+            android:padding="5sp"
             android:textSize="12sp"
             android:layout_weight="4"
             android:gravity="center_horizontal" />
