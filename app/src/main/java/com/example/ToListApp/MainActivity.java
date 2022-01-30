@@ -137,8 +137,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
-
-
     }
 
 
@@ -241,7 +239,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
         intent.putExtra("Title", allList.get(position).getTitle());
         intent.putExtra("ListID", allList.get(position).getListid());
-        intent.putExtra("ItemQty", allList.get(position).getTotitem());
         intent.putExtra("DateAdded", allList.get(position).getTimeAdded());
         intent.putExtra("shopName", allList.get(position).getShopName());
         intent.putExtra("datePlan", sfd.format(new Date(t)));

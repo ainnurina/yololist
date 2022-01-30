@@ -17,8 +17,7 @@ tools:targetApi="lollipop">
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="28dp"
-    android:layout_margin="15dp"
-    android:orientation="vertical">
+    android:layout_margin="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="28dp"
@@ -37,7 +36,8 @@ tools:targetApi="lollipop">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="232dp"
+        android:id="@+id/name"
+        android:layout_width="150dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="36dp">
 
@@ -47,6 +47,26 @@ tools:targetApi="lollipop">
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="Milk"
+            android:textSize="18sp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="2dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/qty"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="2dp"
+        android:layout_toRightOf="@+id/name">
+
+        <TextView
+            android:id="@+id/item_qty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="10"
+            android:textAlignment="center"
             android:textSize="18sp"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="2dp" />

@@ -162,6 +162,7 @@ public class viewBudgetActivity extends AppCompatActivity {
                                     com.example.ToListApp.model.List list = lists.toObject(com.example.ToListApp.model.List.class);
 
                                     allList.add(list);
+
                                 }
                                 //Invoke recyler view
                                 adapter = new budgetAdapter(getApplicationContext(), allList);

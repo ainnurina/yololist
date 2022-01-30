@@ -82,7 +82,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
 
         viewHolder.title.setText(list.getTitle());
-        viewHolder.itemqty.setText(""+list.getTotitem()+" items");
         viewHolder.budgetshop.setText("Estimate budget RM"+list.getTotalbudget());
         viewHolder.placeshop.setText("Shop at "+list.getShopName()+" on "+sfd.format(new Date(t)));
         String timeAgo = (String) DateUtils.getRelativeTimeSpanString(list.getTimeAdded().getSeconds()*1000);
@@ -97,7 +96,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
                     case R.id.menu_share:
                         String title = allList.get(position).getTitle();
                         String ListID = allList.get(position).getListid();
-                        Integer ItemQty = allList.get(position).getTotitem();
                         String dateP = ""+allList.get(position).getDatePlan();
 
                         //to send data
@@ -120,22 +118,22 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
                                         }
 
                                         for (int i = 0; i < allItems.size(); i++)   {
-                                            sb.append("" + (i+1) + ". ").append(allItems.get(i).getItemName()).append('\n');
+                                            sb.append("" + (i+1) + ". ").append(allItems.get(i).getItemName() + " - " + allItems.get(i).getItemQty()).append('\n');
                                             //Toast.makeText(context, "" + allItems.get(i).getItemName(), Toast.LENGTH_SHORT).show();
                                         }
                                         Toast.makeText(context, "" + sb.toString(), Toast.LENGTH_SHORT).show();
                                         allItemName[0] = sb.toString();
 
+                                        long t = allList.get(position).getDatePlan().getSeconds()*1000;
+                                        SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
+
                                         shareIntent.setAction(Intent.ACTION_SEND);
                                         //shareIntent.putExtra(Intent.EXTRA_TITLE, "List.txt");
                                         shareIntent.setType("text/plain");
                                         shareIntent.putExtra(Intent.EXTRA_TEXT, "Title : " + allList.get(position).getTitle()+
-                                                "\nDate : " + allList.get(position).getDatePlan() +
-                                                "\nTotal Item :" +
-                                                "" +
-                                                " " + allList.get(position).getTotitem() +
+                                                "\nDate : " + sfd.format(new Date(t)) +
                                                 "\nShop : " + allList.get(position).getShopName() +
-                                                "\nList of item :\n" + sb.toString());
+                                                "\n\nList of item :\n" + sb.toString());
 
                                         context.startActivity(shareIntent);
 
@@ -202,14 +200,14 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
                                                                     });
 
                                                             if (task.isSuccessful())    {
-                                                                Toast.makeText(context, "List has been deleted from Database.", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(context, "List has been deleted", Toast.LENGTH_SHORT).show();
                                                                 Intent intent = new Intent(context, MainActivity.class);
                                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                                                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                 }
                                                                 context.startActivity(intent);
                                                             } else  {
-                                                                Toast.makeText(context, "Fail to delete the course. ", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(context, "Fail to delete the list", Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
                                                     }).addOnFailureListener(new OnFailureListener() {
@@ -289,7 +287,6 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
             context = ctx;
 
             title = itemView.findViewById(R.id.list_title);
-            itemqty = itemView.findViewById(R.id.items_qty);
             dateAdded = itemView.findViewById(R.id.dateadded);
             txt_option = itemView.findViewById(R.id.txt_option);
             placeshop = itemView.findViewById(R.id.placetoshop);

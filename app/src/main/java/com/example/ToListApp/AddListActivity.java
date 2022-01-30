@@ -51,11 +51,12 @@ public class AddListActivity extends AppCompatActivity implements OnClickListene
     private EditText list_title;
     private EditText textIn;
     private LinearLayout container;
-    private TextView textOut;
+    private TextView textOut, textOutQty;
 
     private EditText etDate;
     private EditText shopName;
     private EditText budget;
+    private EditText txtqty;
     DatePickerDialog.OnDateSetListener setListener;
 
 
@@ -72,6 +73,7 @@ public class AddListActivity extends AppCompatActivity implements OnClickListene
     private CollectionReference collectionReferenceI = db.collection("Items");
 
     private ArrayList<String> values = new ArrayList<String>();
+    private ArrayList<String> valuesQty = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,7 @@ public class AddListActivity extends AppCompatActivity implements OnClickListene
         shopName = findViewById(R.id.post_list_shopName);
         budget = findViewById(R.id.post_list_budget);
         textIn = findViewById(R.id.textin);
+        txtqty = findViewById(R.id.txtqty);
         saveButton = findViewById(R.id.post_saveButton);
         saveButton.setOnClickListener(this);
         buttonAdd = findViewById(R.id.post_add_new_item);
@@ -122,6 +125,10 @@ public class AddListActivity extends AppCompatActivity implements OnClickListene
                 textOut.setText(textIn.getText().toString());
                 values.add(textIn.getText().toString());
 
+                textOutQty = addView.findViewById(R.id.inputqty);
+                textOutQty.setText(txtqty.getText().toString());
+                valuesQty.add(txtqty.getText().toString());
+
                 Button buttonRemove = (Button) addView.findViewById(R.id.remove);
                 View finalAddView = addView;
                 String tempS = textOut.getText().toString().trim();
@@ -134,6 +141,7 @@ public class AddListActivity extends AppCompatActivity implements OnClickListene
                         for (int i = 0; i <values.size(); i++) {
                             if ((tempS).equals(values.get(i))) {
                                 values.remove(i);
+                                valuesQty.remove(i);
                                 ((LinearLayout) finalAddView.getParent()).removeView(finalAddView);
                                 break;
                             }
@@ -194,10 +202,10 @@ public class AddListActivity extends AppCompatActivity implements OnClickListene
             List list = new List();
             list.setListid(key);
             list.setTitle(title);
-            list.setTotitem(values.size());
             list.setShopName(shopnamelocation);
             list.setTotalbudget(Float.parseFloat(totbudget));
             list.setTotalexpenses(Float.parseFloat("0.00"));
+            list.setStatusList("In Progress");
             list.setUserId(currentUserId);
             list.setTimeAdded(new Timestamp(new Date()));
             try {
@@ -223,6 +231,7 @@ public class AddListActivity extends AppCompatActivity implements OnClickListene
                                 Items item = new Items();
                                 item.setItemid(keyItem);
                                 item.setItemName(values.get(i));
+                                item.setItemQty(Integer.valueOf(valuesQty.get(i)));
                                 item.setStatus(0);
                                 item.setListid(key);
 

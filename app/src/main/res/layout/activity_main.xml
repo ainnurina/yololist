@@ -114,6 +114,9 @@
                 android:id="@+id/list_no_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:textAlignment="center"
+                android:textSize="15dp"
                 android:text="@string/no_data_hint"
                 android:visibility="invisible" />
 

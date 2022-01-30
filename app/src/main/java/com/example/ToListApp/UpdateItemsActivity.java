@@ -42,14 +42,15 @@ import util.YololistApi;
 
 public class UpdateItemsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView view_title, view_shopName, view_datego, update_addnewitem, view_expenses;
-    Button goUpdate, buttonAddNewItem;
-    TextView update_budget, vItem, textOut;
+    private TextView view_title, view_shopName, view_datego, update_addnewitem, view_expenses;
+    private Button goUpdate, buttonAddNewItem;
+    private TextView update_budget, vItem, textOut;
     private CheckBox checked;
     private LinearLayout container;
-    String title, ListID, itemQty, DateAdded, shopName, datePlan, totalbudget, totalexpenses;
-    Timestamp dp;
-    long dpDate;
+    private String title, ListID, itemQty, DateAdded, shopName, datePlan, totalbudget, totalexpenses, listdocID;
+    private Timestamp dp;
+    private long dpDate;
+    private int countchecked;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -184,11 +185,11 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Toast.makeText(UpdateItemsActivity.this, "Masuk dari reminder"+ListID, Toast.LENGTH_SHORT).show();
                         //settexttitle
                         if (!queryDocumentSnapshots.isEmpty()) {
                             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                                 com.example.ToListApp.model.List list = document.toObject(com.example.ToListApp.model.List.class);
+                                listdocID = document.getId();
 
                                 view_title.setText(list.getTitle());
                                 view_shopName.setText(list.getShopName());
@@ -212,6 +213,7 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
                                     @Override
                                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                         if (!queryDocumentSnapshots.isEmpty()) {
+                                            allItems.clear();
                                             for (QueryDocumentSnapshot items : queryDocumentSnapshots) {
                                                 Items item = items.toObject(Items.class);
                                                 allItems.add(item);
@@ -221,7 +223,9 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
                                             recyclerView.setAdapter(itemAdapter);
                                             itemAdapter.notifyDataSetChanged();
                                         }
+
                                     }
+
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override

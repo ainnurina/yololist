@@ -15,6 +15,19 @@
 
     </group>
 
+    <item android:title="Budget">
+        <menu>
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/nav_table"
+                    android:icon="@drawable/finance_icon"
+                    android:title="Analysis Budget " />
+
+            </group>
+        </menu>
+    </item>
+
 
     <item android:title="Authentication">
         <menu>
@@ -32,23 +45,12 @@
                 <item
                     android:id="@+id/nav_logout"
                     android:title="Logout"
-                    android:icon="@drawable/signup_icon"/> <!--cari logout icon-->
+                    android:icon="@drawable/logout_icon"/> <!--cari logout icon-->
             </group>
         </menu>
     </item>
 
-    <item android:title="Monitor Spending">
-        <menu>
-            <group android:checkableBehavior="single">
 
-                <item
-                    android:id="@+id/nav_table"
-                    android:icon="@drawable/signup_icon"
-                    android:title="Analysis Budget " />
-
-            </group>
-        </menu>
-    </item>
 
 
 </menu>

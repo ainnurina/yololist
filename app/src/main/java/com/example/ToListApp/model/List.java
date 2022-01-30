@@ -6,27 +6,27 @@ public class List {
     private String listid;
     private String title;
     private Timestamp timeAdded;
-    private int totitem;
     private String shopName;
     private Timestamp datePlan;
     private Float totalbudget;
     private Float totalexpenses;
+    private String statusList;
     private String userId;
 
 
-    public List()   {
+    public List() {
         super();
     }
 
-    public List(String listid, String title, Timestamp timeAdded, int totalitem, String shopName, Timestamp datePlan, Float totalbudget, Float totalexpenses, String userId) {
+    public List(String listid, String title, Timestamp timeAdded, String shopName, Timestamp datePlan, Float totalbudget, Float totalexpenses, String statusList, String userId) {
         this.listid = listid;
         this.title = title;
         this.timeAdded = timeAdded;
-        this.totitem = totitem;
         this.shopName = shopName;
         this.datePlan = datePlan;
         this.totalbudget = totalbudget;
         this.totalexpenses = totalexpenses;
+        this.statusList = statusList;
         this.userId = userId;
     }
 
@@ -46,14 +46,6 @@ public class List {
         this.title = title;
     }
 
-    public int getTotitem() {
-        return totitem;
-    }
-
-    public void setTotitem(int totitem) {
-        this.totitem = totitem;
-    }
-
     public Timestamp getTimeAdded() {
         return timeAdded;
     }
@@ -70,19 +62,43 @@ public class List {
         this.userId = userId;
     }
 
-    public Timestamp getDatePlan() { return datePlan; }
+    public Timestamp getDatePlan() {
+        return datePlan;
+    }
 
-    public void setDatePlan(Timestamp datePlan) { this.datePlan = datePlan;}
+    public void setDatePlan(Timestamp datePlan) {
+        this.datePlan = datePlan;
+    }
 
-    public String getShopName() { return shopName; }
+    public String getShopName() {
+        return shopName;
+    }
 
-    public void setShopName(String shopName) { this.shopName = shopName; }
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
 
-    public Float getTotalbudget() { return totalbudget; }
+    public Float getTotalbudget() {
+        return totalbudget;
+    }
 
-    public void setTotalbudget(Float totalbudget) { this.totalbudget = totalbudget; }
+    public void setTotalbudget(Float totalbudget) {
+        this.totalbudget = totalbudget;
+    }
 
-    public Float getTotalexpenses() { return totalexpenses; }
+    public Float getTotalexpenses() {
+        return totalexpenses;
+    }
 
-    public void setTotalexpenses(Float totalexpenses) { this.totalexpenses = totalexpenses; }
+    public void setTotalexpenses(Float totalexpenses) {
+        this.totalexpenses = totalexpenses;
+    }
+
+    public String getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(String statusList) {
+        this.statusList = statusList;
+    }
 }

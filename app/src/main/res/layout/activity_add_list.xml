@@ -8,6 +8,7 @@
     tools:context=".AddListActivity">
 
     <LinearLayout
+        android:id="@+id/layoutcont"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -58,16 +59,14 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/formfield">
+                android:layout_marginBottom="0dp">
 
                 <EditText
                     android:id="@+id/post_list_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter list title"
-                    android:background="@android:color/transparent"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:inputType="text"
                     android:maxLines="1"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -94,16 +93,14 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/formfield">
+                android:layout_marginBottom="0dp">
 
                 <EditText
                     android:id="@+id/post_list_shopName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter shop name"
-                    android:background="@android:color/transparent"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:inputType="text"
                     android:maxLines="1"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -125,51 +122,67 @@
             android:layout_marginRight="20dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="186dp"
+                android:layout_width="150dp"
                 android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
                 android:layout_marginEnd="185dp"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/formfield">
+                android:layout_marginBottom="0dp">
 
                 <EditText
                     android:id="@+id/et_date"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
                     android:hint="Select date to shop"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.219"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="180dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="145dp"
+                android:layout_marginBottom="0dp">
+
+                <TextView
+                    android:id="@+id/rm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RM"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="140dp"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="0dp"
                 android:layout_marginBottom="0dp"
-                android:background="@drawable/formfield"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <EditText
                     android:id="@+id/post_list_budget"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="Enter estimate budget"
-                    android:inputType="text"
+                    android:hint="Enter budget"
+                    android:inputType="numberDecimal"
                     android:maxLines="1"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.219"
@@ -184,31 +197,47 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="35dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:background="@color/orange_200">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="300dp"
+                android:id="@+id/addname"
+                android:layout_width="220dp"
                 android:layout_height="40dp"
-                android:background="@drawable/formfield"
-                android:layout_marginBottom="26dp">
+                android:layout_margin="10dp">
 
                 <EditText
                     android:id="@+id/textin"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Add Item"
-                    android:background="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.056"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.523"
-                    android:textSize="15sp"/>
+                    android:textSize="18sp"/>
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@+id/addname" >
+
+                <EditText
+                    android:id="@+id/txtqty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Qty"
+                    android:textSize="18sp"
+                    android:inputType="number"
+                    tools:ignore="MissingConstraints" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
@@ -218,7 +247,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="23dp"
-                android:layout_marginTop="0dp"
+                android:layout_margin="10dp"
                 android:layout_marginEnd="8dp"
                 android:text="+"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -230,8 +259,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginBottom="25dp">
-
+            android:layout_margin="25dp">
 
         </LinearLayout>
 
