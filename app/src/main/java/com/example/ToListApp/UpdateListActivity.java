@@ -62,7 +62,6 @@ UpdateListActivity extends AppCompatActivity {
         update_shopName = findViewById(R.id.update_shopName);
         update_budget = findViewById(R.id.update_budget);
         update_addnewitem = findViewById(R.id.update_addnewitem);
-        update_expenses = findViewById(R.id.update_expenses);
         update_datego = findViewById(R.id.update_datego);
 
         Calendar calendar = Calendar.getInstance();
@@ -105,7 +104,6 @@ UpdateListActivity extends AppCompatActivity {
         title = update_title.getText().toString().trim();
         shopName = update_shopName.getText().toString().trim();
         totalbudget = update_budget.getText().toString().trim();
-        totalexpenses = update_expenses.getText().toString().trim();
         datePlan = update_datego.getText().toString().trim();
 
         try {
@@ -135,7 +133,6 @@ UpdateListActivity extends AppCompatActivity {
                                             .update("title", title,
                                                     "shopName", shopName,
                                                     "totalbudget", Float.parseFloat(totalbudget),
-                                                    "totalexpenses", Float.parseFloat(totalexpenses),
                                                     "datePlan", newdate)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -174,12 +171,6 @@ UpdateListActivity extends AppCompatActivity {
 
                         update_datego.setText(datePlan);
                         update_budget.setText(totalbudget);
-
-                        if (totalexpenses.equalsIgnoreCase("null"))   {
-                            update_expenses.setText("0");
-                        } else {
-                            update_expenses.setText(totalexpenses);
-                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

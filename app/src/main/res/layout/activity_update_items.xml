@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,9 +7,9 @@
     tools:context=".UpdateItemsActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -68,12 +67,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="10dp"
                     android:text="List"
                     android:textAlignment="center"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:textSize="19dp"/>
+                    android:textSize="19dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -99,8 +98,8 @@
                             android:inputType="text"
                             android:maxLines="1"
                             android:text="Title              :"
-                            android:textStyle="bold"
                             android:textSize="16sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -281,8 +280,8 @@
                             android:inputType="text"
                             android:maxLines="1"
                             android:text="Budget          :"
-                            android:textStyle="bold"
                             android:textSize="16sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -296,7 +295,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="169dp"
+                        android:layout_marginEnd="172dp"
                         android:layout_marginBottom="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -315,13 +314,22 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="10dp">
+
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
+                        android:layout_width="90dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentStart="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="84dp"
-                        android:layout_marginBottom="0dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="-21dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -331,9 +339,9 @@
                             android:background="@android:color/transparent"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:text="Expenses :"
-                            android:textStyle="bold"
+                            android:text="Expenses     :"
                             android:textSize="16sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.219"
@@ -343,12 +351,12 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="64dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="2dp"
-                        android:layout_marginBottom="0dp"
+                        android:layout_marginStart="90dp"
+                        android:layout_marginBottom="-5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -361,7 +369,7 @@
                             android:textSize="17sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.219"
+                            app:layout_constraintHorizontal_bias="0.111"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -371,41 +379,35 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginRight="20dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="42dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="3dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent">
 
-                        <Button
+                        <TextView
                             android:id="@+id/GoUpdate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/orange_btn_background"
-                            android:text="Update"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.25" />
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Click here to update list information"
+                            android:textAlignment="center"
+                            android:textColor="@color/orange_700"
+                            android:textSize="16sp" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </RelativeLayout>
 
 
             </LinearLayout>
-
-
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -432,11 +434,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Items"
-                    android:textAlignment="center"
                     android:layout_marginBottom="10dp"
                     android:background="@color/orange_200"
-                    android:textSize="19dp"/>
+                    android:text="Items"
+                    android:textAlignment="center"
+                    android:textSize="19dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -446,26 +448,51 @@
                     android:layout_marginRight="20dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="270dp"
+                        android:id="@+id/form_additem"
+                        android:layout_width="220dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/formfield"
-                        android:layout_marginBottom="26dp">
+                        android:layout_marginBottom="26dp"
+                        android:background="@drawable/formfield">
 
                         <EditText
                             android:id="@+id/update_addnewitem"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="Add Item"
                             android:background="@android:color/transparent"
+                            android:hint="Add Item"
+                            android:textSize="17sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.056"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.523"
-                            android:textSize="17sp"/>
+                            app:layout_constraintVertical_bias="0.523" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="26dp"
+                        android:background="@drawable/formfield"
+                        android:layout_toRightOf="@+id/form_additem" >
+
+                        <EditText
+                            android:id="@+id/update_addnewqty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="Qty"
+                            android:inputType="number"
+                            android:textSize="17sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.529" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <Button
                         android:id="@+id/button_update_add_new_item"
@@ -486,19 +513,71 @@
                     android:id="@+id/recyclerViewItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"/>
-
+                    android:layout_marginBottom="20dp" />
 
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/box_addexpenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="40dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp"
+            tools:targetApi="lollipop">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@color/orange_200"
+                android:text="Add Expenses"
+                android:textAlignment="center"
+                android:textSize="18dp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="30dp">
 
+                <TextView
+                    android:id="@+id/nameexpenses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingTop="6dp"
+                    android:text="Expenses : RM"
+                    android:textSize="18sp" />
 
+                <EditText
+                    android:id="@+id/inputexpenses"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@+id/nameexpenses"
+                    android:hint="Enter expenses"
+                    android:textSize="18sp" />
 
+                <Button
+                    android:id="@+id/button_addexpenses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/inputexpenses"
+                    android:text="Add" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
 
     </LinearLayout>

@@ -3,15 +3,18 @@ package com.example.ToListApp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,12 +43,17 @@ import java.util.List;
 
 import util.YololistApi;
 
+import static android.content.ContentValues.TAG;
+
 public class UpdateItemsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView view_title, view_shopName, view_datego, update_addnewitem, view_expenses;
-    private Button goUpdate, buttonAddNewItem;
+    private TextView view_title, view_shopName, view_datego, update_addnewitem, update_addnewqty, view_expenses;
+    private EditText inputexpenses;
+    private Button buttonAddNewItem, button_addexpenses;
+    private TextView goUpdate;
     private TextView update_budget, vItem, textOut;
     private CheckBox checked;
+    private CardView box_addexpenses;
     private LinearLayout container;
     private String title, ListID, itemQty, DateAdded, shopName, datePlan, totalbudget, totalexpenses, listdocID;
     private Timestamp dp;
@@ -89,9 +97,14 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
         view_datego = findViewById(R.id.view_datego);
         update_budget = findViewById(R.id.view_budget);
         update_addnewitem = findViewById(R.id.update_addnewitem);
+        update_addnewqty = findViewById(R.id.update_addnewqty);
         view_expenses = findViewById(R.id.view_expenses);
+        box_addexpenses = findViewById(R.id.box_addexpenses);
+        inputexpenses = findViewById(R.id.inputexpenses);
         goUpdate = findViewById(R.id.GoUpdate);
         goUpdate.setOnClickListener(this);
+        button_addexpenses = findViewById(R.id.button_addexpenses);
+        button_addexpenses.setOnClickListener(this);
 
 
         buttonAddNewItem = findViewById(R.id.button_update_add_new_item);
@@ -137,12 +150,37 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
                 startActivity(intent);
             } else if (v.getId() == R.id.button_update_add_new_item)  {
                 addnewItem(currentUserId);
+            } else if (v.getId() == R.id.button_addexpenses)    {
+                addexpenses();
             }
         }
     }
 
+    private void addexpenses() {
+
+        String expenses = inputexpenses.getText().toString().trim();
+        if (!TextUtils.isEmpty(expenses)) {
+            collectionReferenceL.document(listdocID).update("totalexpenses", Float.valueOf(expenses))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(UpdateItemsActivity.this, "Expenses has been added", Toast.LENGTH_SHORT).show();
+                            finish();
+                            startActivity(getIntent());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, e.toString());
+                }
+            });
+        }
+
+    }
+
     private void addnewItem(String currentUserId) {
         String up_newItem = update_addnewitem.getText().toString().trim();
+        int up_newQty = Integer.valueOf(update_addnewqty.getText().toString().trim());
 
         if (!TextUtils.isEmpty(title)) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("List");
@@ -152,6 +190,7 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
             item.setItemid(key);
             item.setStatus(0);
             item.setItemName(up_newItem);
+            item.setItemQty(up_newQty);
             item.setListid(ListID);
 
             collectionReferenceI.add(item)
@@ -159,6 +198,7 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
                             if (task.isSuccessful()) {
+                                collectionReferenceL.document(listdocID).update("statusList", "In Progress");
                                 Toast.makeText(UpdateItemsActivity.this, "Item Saved", Toast.LENGTH_SHORT).show();
                                 finish();
                                 startActivity(getIntent());
@@ -169,7 +209,7 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(UpdateItemsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, e.toString());
                 }
             });
         }
@@ -198,10 +238,17 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
                                 SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
                                 view_datego.setText(sfd.format(new Date(t)));
 
-                                if (Float.parseFloat(""+list.getTotalexpenses()) == 0)   {
-                                    view_expenses.setText("0");
+                                if (list.getTotalexpenses() == 0.0)   {
+                                    inputexpenses.setHint("Enter expenses");
+                                    view_expenses.setText("Go Shopping!");
                                 } else {
+                                    button_addexpenses.setText("Update");
+                                    inputexpenses.setText(""+list.getTotalexpenses());
                                     view_expenses.setText("RM"+list.getTotalexpenses());
+                                }
+
+                                if (list.getStatusList().equals("Completed"))   {
+                                    box_addexpenses.setVisibility(View.VISIBLE);
                                 }
                             }
                         }
@@ -230,7 +277,7 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-
+                                        Log.d(TAG, e.toString());
                                     }
                                 });
                     }
@@ -238,8 +285,9 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Log.d(TAG, e.toString());
                     }
                 });
+
     }
 }

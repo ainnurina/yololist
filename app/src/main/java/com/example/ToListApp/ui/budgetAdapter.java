@@ -20,8 +20,7 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
 
     private static Context context;
     private List<com.example.ToListApp.model.List> allList;
-    int i = 1, countwithinbudget = 0, countoverbudget = 0;
-    float sumbudget, sumexpenses;
+    int i = 1;
 
 
 
@@ -43,7 +42,7 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
          com.example.ToListApp.model.List list = allList.get(position);
 
-        long t = list.getTimeAdded().getSeconds()*1000;
+        long t = list.getDatePlan().getSeconds()*1000;
         SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
 
         holder.table_no.setText(""+i);
@@ -60,8 +59,6 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
         }
 
         holder.table_listdate.setText(""+sfd.format(new Date(t)));
-
-        //calculate gap between
 
         i++;
     }

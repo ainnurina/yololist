@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,7 +67,6 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
         //count item yg status = 1
         if (item.getStatus() == 1)  {
             countchecked++;
-            Toast.makeText(context, "check"+countchecked+"size"+allItems.size(), Toast.LENGTH_SHORT).show();
         }
 
         //get document id
@@ -112,8 +110,8 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
                     countchecked++;
                     if (countchecked == allItems.size())    {
                         firestore.collection("List").document(list_docid).update("statusList", "Completed");
+
                     }
-                    Toast.makeText(context, "tot"+countchecked, Toast.LENGTH_SHORT).show();
 
                 } else if (!isChecked) {
                     firestore.collection("Items").document(itemdocId[0]).update("status", 0);
@@ -122,7 +120,6 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
                     if (countchecked != allItems.size()) {
                         firestore.collection("List").document(list_docid).update("statusList", "In Progress");
                     }
-                    Toast.makeText(context, "tot"+countchecked, Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -167,6 +164,7 @@ public class ItemUpdateAdapter extends RecyclerView.Adapter<ItemUpdateAdapter.Vi
             itemQty = itemView.findViewById(R.id.item_qty);
             buttonminus = itemView.findViewById(R.id.buttonminus);
             mCheckBox = (CheckBox) itemView.findViewById(R.id.checkedbox);
+
 
         }
 
