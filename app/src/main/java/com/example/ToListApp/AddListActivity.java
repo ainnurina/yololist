@@ -256,7 +256,7 @@ public class AddListActivity extends AppCompatActivity implements OnClickListene
                                                     e.printStackTrace();
                                                 }
 
-                                                Toast.makeText(AddListActivity.this, "List has been added"+timeAddInMillis, Toast.LENGTH_SHORT).show();
+                                                //Toast.makeText(AddListActivity.this, "List has been added", Toast.LENGTH_SHORT).show();
 
                                                 long twentyhoursInMillis = 72000000; // 1 seconds = 1000 Milis
                                                 
@@ -264,7 +264,7 @@ public class AddListActivity extends AppCompatActivity implements OnClickListene
                                                         timeAddInMillis + twentyhoursInMillis,
                                                         pendingIntent);
 
-                                                Toast.makeText(AddListActivity.this, "List has been added"+(timeAddInMillis + twentyhoursInMillis), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(AddListActivity.this, "List has been added", Toast.LENGTH_SHORT).show();
 
 
                                             }

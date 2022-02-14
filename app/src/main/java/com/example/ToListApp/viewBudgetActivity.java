@@ -19,10 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ToListApp.ui.budgetAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -66,10 +68,6 @@ public class viewBudgetActivity extends AppCompatActivity {
         largestlistitle = findViewById(R.id.largestlistitle);
 
 
-
-        //analysis
-
-
         //get calendar
         firstdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +85,8 @@ public class viewBudgetActivity extends AppCompatActivity {
                 String date = day + "/" + month + "/" +  year;
 
                 firstdate.setText(date);
+
+
             }
         };
 
@@ -122,7 +122,7 @@ public class viewBudgetActivity extends AppCompatActivity {
 
     private void getAnalysisBudget(EditText firstdate, EditText enddate) {
         String startdt = firstdate.getText().toString().trim();
-        String enddt = firstdate.getText().toString().trim();
+        String enddt = enddate.getText().toString().trim();
 
         if (startdt.isEmpty())   {
             firstdate.setError("Select first date");
@@ -143,74 +143,10 @@ public class viewBudgetActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            /*
-            Task task1 = collectionReference.whereLessThanOrEqualTo("datePlan", end)
-                    .orderBy("datePlan", Query.Direction.ASCENDING)
-                    .get();
-
-            Task task2 = collectionReference.whereGreaterThanOrEqualTo("datePlan", start)
-                    .orderBy("datePlan", Query.Direction.ASCENDING)
-                    .get();
-
-            Task<List<QuerySnapshot>> allTasks = Tasks.whenAllSuccess(task1, task2);
-
-
-            allTasks.addOnSuccessListener(new OnSuccessListener<List<QuerySnapshot>>() {
-                @Override
-                public void onSuccess(List<QuerySnapshot> querySnapshots) {
-                    Toast.makeText(viewBudgetActivity.this, "Berjaya masuk", Toast.LENGTH_SHORT ).show();
-
-
-                    for (QuerySnapshot queryDocumentSnapshots : querySnapshots) {
-                        allList.clear();
-                        int countwithinbudget = 0, countoverbudget = 0;
-                        float totsumbudget = 0, totsumexpenses = 0, totgap = 0, gap = 0;
-                        String temp = "";
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)   {
-                            com.example.ToListApp.model.List list = documentSnapshot.toObject(com.example.ToListApp.model.List.class);
-
-                            allList.add(list);
-                        }
-                        //Invoke recyler view
-                        adapter = new budgetAdapter(getApplicationContext(), allList);
-                        recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-
-                        for (com.example.ToListApp.model.List list : allList)    {
-                            if (list.getTotalbudget() >= list.getTotalexpenses())  {
-                                countwithinbudget++;
-                            }
-                            else if (list.getTotalexpenses() >= list.getTotalbudget())  {
-                                countoverbudget++;
-
-                                totgap = gap;
-                                gap = list.getTotalexpenses() - list.getTotalbudget();
-
-                                if (gap >= totgap) {
-                                    temp = list.getTitle();
-                                }
-
-                            }
-
-                            totsumbudget = totsumbudget + list.getTotalbudget();
-                            totsumexpenses = totsumexpenses + list.getTotalexpenses();
-
-                        }
-
-                        sumbudget.setText(""+totsumbudget);
-                        sumexpenses.setText(""+totsumexpenses);
-                        qtylistwithinbudget.setText(":  "+countwithinbudget);
-                        qtylistoverbudget.setText(":  "+countoverbudget);
-                        largestlistitle.setText(":  " + temp);
-                    }
-                }
-            });
-
-             */
-
             Timestamp finalEnd1 = end;
             Timestamp finalStart = start;
-            collectionReference.whereGreaterThanOrEqualTo("datePlan", start)
+            collectionReference.whereGreaterThanOrEqualTo("datePlan", start).whereLessThanOrEqualTo("datePlan", end)
+                    .orderBy("datePlan", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -226,62 +162,6 @@ public class viewBudgetActivity extends AppCompatActivity {
 
                                     allList.add(list);
                                 }
-                                //Invoke recyler view
-                                adapter = new budgetAdapter(getApplicationContext(), allList);
-                                recyclerView.setAdapter(adapter);
-                                adapter.notifyDataSetChanged();
-
-                                for (com.example.ToListApp.model.List list : allList)    {
-                                    if (list.getTotalbudget() >= list.getTotalexpenses())  {
-                                        countwithinbudget++;
-                                    }
-                                    else if (list.getTotalexpenses() >= list.getTotalbudget())  {
-                                        countoverbudget++;
-
-                                        totgap = gap;
-                                        gap = list.getTotalexpenses() - list.getTotalbudget();
-
-                                        if (gap >= totgap) {
-                                            temp = list.getTitle();
-                                        }
-
-                                    }
-
-                                    totsumbudget = totsumbudget + list.getTotalbudget();
-                                    totsumexpenses = totsumexpenses + list.getTotalexpenses();
-
-                                }
-
-                                sumbudget.setText(""+totsumbudget+finalStart);
-                                sumexpenses.setText(""+totsumexpenses);
-                                qtylistwithinbudget.setText(":  "+countwithinbudget);
-                                qtylistoverbudget.setText(":  "+countoverbudget);
-                                largestlistitle.setText(":  " + temp);
-                            }
-                            else   {
-                                Toast.makeText(viewBudgetActivity.this, "Not available on that date", Toast.LENGTH_SHORT);
-                            }
-                        }
-                    });
-            /*
-            new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            if (!queryDocumentSnapshots.isEmpty())  {
-                                allList.clear();
-                                int countwithinbudget = 0, countoverbudget = 0;
-                                float totsumbudget = 0, totsumexpenses = 0, totgap = 0, gap = 0;
-                                String temp = "";
-                                for (QueryDocumentSnapshot lists : queryDocumentSnapshots)  {
-                                    com.example.ToListApp.model.List list = lists.toObject(com.example.ToListApp.model.List.class);
-
-                                    allList.add(list);
-
-                                }
-                                //Invoke recyler view
-                                adapter = new budgetAdapter(getApplicationContext(), allList);
-                                recyclerView.setAdapter(adapter);
-                                adapter.notifyDataSetChanged();
 
                                 for (com.example.ToListApp.model.List list : allList)    {
                                     if (list.getTotalbudget() >= list.getTotalexpenses())  {
@@ -309,7 +189,17 @@ public class viewBudgetActivity extends AppCompatActivity {
                                 qtylistwithinbudget.setText(":  "+countwithinbudget);
                                 qtylistoverbudget.setText(":  "+countoverbudget);
                                 largestlistitle.setText(":  " + temp);
-                            } else   {
+
+
+                                //Invoke recyler view
+                                adapter = new budgetAdapter(getApplicationContext(), allList);
+                                recyclerView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+
+
+                            }
+                            else   {
+
                                 Toast.makeText(viewBudgetActivity.this, "Not available on that date", Toast.LENGTH_SHORT);
                             }
                         }
@@ -317,11 +207,8 @@ public class viewBudgetActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.d(TAG, e.toString());
-
                 }
             });
-
-             */
 
         }
     }

@@ -1,3 +1,4 @@
+
 package com.example.ToListApp.ui;
 
 import android.annotation.SuppressLint;
@@ -121,7 +122,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
                                             sb.append("" + (i+1) + ". ").append(allItems.get(i).getItemName() + " - " + allItems.get(i).getItemQty()).append('\n');
                                             //Toast.makeText(context, "" + allItems.get(i).getItemName(), Toast.LENGTH_SHORT).show();
                                         }
-                                        Toast.makeText(context, "" + sb.toString(), Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(context, "" + sb.toString(), Toast.LENGTH_SHORT).show();
                                         allItemName[0] = sb.toString();
 
                                         long t = allList.get(position).getDatePlan().getSeconds()*1000;
@@ -183,6 +184,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
                                                                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                             @Override
                                                                                             public void onComplete(@NonNull Task<Void> task) {
+                                                                                                Toast.makeText(context, "List has been deleted", Toast.LENGTH_SHORT).show();
 
 
                                                                                             }

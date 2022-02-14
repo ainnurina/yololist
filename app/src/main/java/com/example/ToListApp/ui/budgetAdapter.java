@@ -16,12 +16,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder>   {
+public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder> {
 
     private static Context context;
     private List<com.example.ToListApp.model.List> allList;
     int i = 1;
-
 
 
     public budgetAdapter(Context context, List<com.example.ToListApp.model.List> allList) {
@@ -40,25 +39,24 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-         com.example.ToListApp.model.List list = allList.get(position);
+        com.example.ToListApp.model.List list = allList.get(position);
 
-        long t = list.getDatePlan().getSeconds()*1000;
+        long t = list.getDatePlan().getSeconds() * 1000;
         SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
 
-        holder.table_no.setText(""+i);
+        holder.table_no.setText("" + i);
         holder.table_listname.setText(list.getTitle());
-        holder.table_listbudget.setText(""+list.getTotalbudget());
-        holder.table_listexpenses.setText(""+list.getTotalexpenses());
+        holder.table_listbudget.setText("" + list.getTotalbudget());
+        holder.table_listexpenses.setText("" + list.getTotalexpenses());
         //set status & count qty status
-        if (list.getTotalbudget() >= list.getTotalexpenses())  {
+        if (list.getTotalbudget() >= list.getTotalexpenses()) {
             holder.table_liststatus.setText("within budget");
-        }
-        else if (list.getTotalexpenses() >= list.getTotalbudget())  {
+        } else if (list.getTotalexpenses() >= list.getTotalbudget()) {
             holder.table_liststatus.setText("overbudget");
             holder.table_liststatus.setTextColor(Color.RED);
         }
 
-        holder.table_listdate.setText(""+sfd.format(new Date(t)));
+        holder.table_listdate.setText("" + sfd.format(new Date(t)));
 
         i++;
     }
