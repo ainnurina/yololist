@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ToListApp.R;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -41,13 +42,17 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         com.example.ToListApp.model.List list = allList.get(position);
 
+
         long t = list.getDatePlan().getSeconds() * 1000;
+        //change date format
         SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
+        //change float formal to two decimal point
+        DecimalFormat df = new DecimalFormat("0.00");
 
         holder.table_no.setText("" + i);
         holder.table_listname.setText(list.getTitle());
-        holder.table_listbudget.setText("" + list.getTotalbudget());
-        holder.table_listexpenses.setText("" + list.getTotalexpenses());
+        holder.table_listbudget.setText("RM" + df.format(list.getTotalbudget()));
+        holder.table_listexpenses.setText("RM" + df.format(list.getTotalexpenses()));
         //set status & count qty status
         if (list.getTotalbudget() >= list.getTotalexpenses()) {
             holder.table_liststatus.setText("within budget");

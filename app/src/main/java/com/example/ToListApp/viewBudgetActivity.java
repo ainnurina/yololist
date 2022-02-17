@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +29,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import util.YololistApi;
 
 import static android.content.ContentValues.TAG;
 
@@ -42,15 +51,16 @@ public class viewBudgetActivity extends AppCompatActivity {
     budgetAdapter adapter;
     private EditText firstdate, enddate;
     private TextView sumbudget, sumexpenses, qtylistwithinbudget, qtylistoverbudget, largestlistitle;
+    private LinearLayout framelayout4, inputbfrlayout, graphtitle;
+    private TableLayout outputtable;
     private Button buttonanalyse;
+    private GraphView graph;
     private List<com.example.ToListApp.model.List> allList = allList = new ArrayList<>();
-    private  DatePickerDialog.OnDateSetListener mDateSetListenerFirst;
-    private  DatePickerDialog.OnDateSetListener mDateSetListenerEnd;
+    private DatePickerDialog.OnDateSetListener mDateSetListenerFirst;
+    private DatePickerDialog.OnDateSetListener mDateSetListenerEnd;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = db.collection("List");
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +76,11 @@ public class viewBudgetActivity extends AppCompatActivity {
         qtylistwithinbudget = findViewById(R.id.qtylistwithinbudget);
         qtylistoverbudget = findViewById(R.id.qtylistoverbudget);
         largestlistitle = findViewById(R.id.largestlistitle);
-
+        framelayout4 = findViewById(R.id.frameLayout4);
+        inputbfrlayout = findViewById(R.id.inputbfrlayout);
+        outputtable = findViewById(R.id.outputtable);
+        graph = (GraphView) findViewById(R.id.graph);
+        graphtitle = findViewById(R.id.graphtitle);
 
         //get calendar
         firstdate.setOnClickListener(new View.OnClickListener() {
@@ -82,11 +96,9 @@ public class viewBudgetActivity extends AppCompatActivity {
                 month = month + 1;
                 Log.d(TAG, "onDataset date: dd/mm/yyyy" + day + "/" + month + "/" + year);
 
-                String date = day + "/" + month + "/" +  year;
+                String date = day + "/" + month + "/" + year;
 
                 firstdate.setText(date);
-
-
             }
         };
 
@@ -103,7 +115,7 @@ public class viewBudgetActivity extends AppCompatActivity {
                 month = month + 1;
                 Log.d(TAG, "onDataset date: dd/mm/yyyy" + day + "/" + month + "/" + year);
 
-                String date = day + "/" + month + "/" +  year;
+                String date = day + "/" + month + "/" + year;
                 enddate.setText(date);
             }
         };
@@ -115,26 +127,29 @@ public class viewBudgetActivity extends AppCompatActivity {
             }
         });
 
-
-
         setRecyclerView();
     }
 
     private void getAnalysisBudget(EditText firstdate, EditText enddate) {
         String startdt = firstdate.getText().toString().trim();
         String enddt = enddate.getText().toString().trim();
+        DecimalFormat df = new DecimalFormat("0.00");
 
-        if (startdt.isEmpty())   {
+        if (startdt.isEmpty()) {
             firstdate.setError("Select first date");
             firstdate.requestFocus();
         }
 
-        if (enddt.isEmpty())   {
+        if (enddt.isEmpty()) {
             enddate.setError("Select end date");
             enddate.requestFocus();
         }
 
         if (!startdt.isEmpty() && !enddt.isEmpty()) {
+            inputbfrlayout.setVisibility(View.INVISIBLE);
+            framelayout4.setVisibility(View.VISIBLE);
+            outputtable.setVisibility(View.VISIBLE);
+
             Timestamp start = null, end = null;
             try {
                 start = new Timestamp(new SimpleDateFormat("dd/MM/yyyy").parse(startdt));
@@ -151,7 +166,7 @@ public class viewBudgetActivity extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful())    {
+                            if (task.isSuccessful()) {
                                 allList.clear();
 
                                 int countwithinbudget = 0, countoverbudget = 0;
@@ -159,15 +174,28 @@ public class viewBudgetActivity extends AppCompatActivity {
                                 String temp = "";
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     com.example.ToListApp.model.List list = document.toObject(com.example.ToListApp.model.List.class);
+//                                    Toast.makeText(viewBudgetActivity.this, "Keluar"+list.getTotalexpenses(), Toast.LENGTH_SHORT).show();
 
-                                    allList.add(list);
+                                    if (list.getTotalexpenses() > 0 && list.getUserId().equals(YololistApi.getInstance().getUserId())) {
+                                        allList.add(list);
+                                    }
                                 }
 
-                                for (com.example.ToListApp.model.List list : allList)    {
-                                    if (list.getTotalbudget() >= list.getTotalexpenses())  {
+                                graph.removeAllSeries();
+                                LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+                                int numDataPoint = allList.size();
+                                double calctotalbudget = 0.0, x, y;
+                                int i =0, a=0;
+
+
+                                for (com.example.ToListApp.model.List list : allList) {
+
+                                    if (list.getTotalbudget() >= list.getTotalexpenses()) {
                                         countwithinbudget++;
-                                    }
-                                    else if (list.getTotalexpenses() >= list.getTotalbudget())  {
+
+                                        calctotalbudget = list.getTotalbudget()-list.getTotalexpenses();
+
+                                    } else if (list.getTotalexpenses() >= list.getTotalbudget()) {
                                         countoverbudget++;
 
                                         totgap = gap;
@@ -176,18 +204,41 @@ public class viewBudgetActivity extends AppCompatActivity {
                                         if (gap >= totgap) {
                                             temp = list.getTitle();
                                         }
+                                        calctotalbudget = list.getTotalbudget()-list.getTotalexpenses();
 
                                     }
+
+
+                                    i = a;
+                                    series.appendData(new DataPoint(i, calctotalbudget), true, 100);
+                                    a++;
 
                                     totsumbudget = totsumbudget + list.getTotalbudget();
                                     totsumexpenses = totsumexpenses + list.getTotalexpenses();
 
                                 }
+                                graph.addSeries(series);
+                                graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+                                graph.getViewport().setDrawBorder(true);
+                                graphtitle.setVisibility(View.VISIBLE);
+                                graph.setVisibility(View.VISIBLE);
 
-                                sumbudget.setText(""+totsumbudget);
-                                sumexpenses.setText(""+totsumexpenses);
-                                qtylistwithinbudget.setText(":  "+countwithinbudget);
-                                qtylistoverbudget.setText(":  "+countoverbudget);
+//                                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(
+//                                        new DataPoint[]{
+//                                                new DataPoint(0, 1),
+//                                                new DataPoint(1, 5),
+//                                                new DataPoint(2, 3),
+//                                                new DataPoint(3, 2),
+//                                                new DataPoint(4, 6)
+//                                        }
+//                                );
+//                                graph.addSeries(series);
+
+
+                                sumbudget.setText("" + df.format(totsumbudget));
+                                sumexpenses.setText("" + df.format(totsumexpenses));
+                                qtylistwithinbudget.setText(":  " + countwithinbudget);
+                                qtylistoverbudget.setText(":  " + countoverbudget);
                                 largestlistitle.setText(":  " + temp);
 
 
@@ -196,9 +247,7 @@ public class viewBudgetActivity extends AppCompatActivity {
                                 recyclerView.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
 
-
-                            }
-                            else   {
+                            } else {
 
                                 Toast.makeText(viewBudgetActivity.this, "Not available on that date", Toast.LENGTH_SHORT);
                             }
@@ -213,7 +262,7 @@ public class viewBudgetActivity extends AppCompatActivity {
         }
     }
 
-    private void calendartheme(DatePickerDialog.OnDateSetListener mDateSetListener)    {
+    private void calendartheme(DatePickerDialog.OnDateSetListener mDateSetListener) {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);

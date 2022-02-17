@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,6 +33,7 @@ public class
 UpdateListActivity extends AppCompatActivity {
     EditText update_title, update_shopName, update_datego, update_addnewitem, update_expenses, update_budget;
     String title, ListID, itemQty, DateAdded, shopName, datePlan, totalbudget, totalexpenses;
+    Float totbudget;
     Button saveButton;
     Timestamp newdate;
 
@@ -56,6 +58,7 @@ UpdateListActivity extends AppCompatActivity {
         datePlan = getIntent().getStringExtra("datePlan");
         totalbudget = getIntent().getStringExtra("totalbudget");
         totalexpenses = getIntent().getStringExtra("totalexpenses");
+
 
         //get element user interface id
         update_title = findViewById(R.id.update_title);
@@ -166,11 +169,15 @@ UpdateListActivity extends AppCompatActivity {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         //settexttitle
 
+                        //change float formal to two decimal point
+                        DecimalFormat df = new DecimalFormat("0.00");
+                        totbudget = Float.parseFloat(totalbudget);
+
                         update_title.setText(title);
                         update_shopName.setText(shopName);
 
                         update_datego.setText(datePlan);
-                        update_budget.setText(totalbudget);
+                        update_budget.setText(df.format(totbudget));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

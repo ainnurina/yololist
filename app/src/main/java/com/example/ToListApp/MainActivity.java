@@ -33,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -199,8 +200,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     protected void onStart() {
         super.onStart();
 
-        collectionReference.whereEqualTo("userId", YololistApi.getInstance()
-                .getUserId())
+        collectionReference.orderBy("datePlan", Query.Direction.ASCENDING)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -209,7 +209,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                             allList.clear();
                             for (QueryDocumentSnapshot lists : queryDocumentSnapshots)  {
                                 List list = lists.toObject(List.class);
-                                allList.add(list);
+
+                                if (list.getUserId().equals(YololistApi.getInstance().getUserId())) {
+                                    allList.add(list);
+                                }
+
                             }
                             //Invoke recyler view
                             listRecyclerAdapter = new ListRecyclerAdapter(getApplicationContext(), allList, recyclerViewInterface);

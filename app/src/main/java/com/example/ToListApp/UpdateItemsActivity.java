@@ -35,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -231,9 +232,12 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
                                 com.example.ToListApp.model.List list = document.toObject(com.example.ToListApp.model.List.class);
                                 listdocID = document.getId();
 
+                                //change float formal to two decimal point
+                                DecimalFormat df = new DecimalFormat("0.00");
+
                                 view_title.setText(list.getTitle());
                                 view_shopName.setText(list.getShopName());
-                                update_budget.setText("RM"+list.getTotalbudget());
+                                update_budget.setText("RM"+df.format(list.getTotalbudget()));
                                 long t = list.getDatePlan().getSeconds()*1000;
                                 SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
                                 view_datego.setText(sfd.format(new Date(t)));
@@ -244,7 +248,7 @@ public class UpdateItemsActivity extends AppCompatActivity implements View.OnCli
                                 } else {
                                     button_addexpenses.setText("Update");
                                     inputexpenses.setText(""+list.getTotalexpenses());
-                                    view_expenses.setText("RM"+list.getTotalexpenses());
+                                    view_expenses.setText("RM"+df.format(list.getTotalexpenses()));
                                 }
 
                                 if (list.getStatusList().equals("Completed"))   {

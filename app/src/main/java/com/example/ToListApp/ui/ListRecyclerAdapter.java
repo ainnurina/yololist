@@ -35,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,11 +81,15 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         List list = allList.get(position);
 
         long t = list.getDatePlan().getSeconds()*1000;
+        //change date format
         SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
+        //change float formal to two decimal point
+        DecimalFormat df = new DecimalFormat("0.00");
 
         viewHolder.title.setText(list.getTitle());
-        viewHolder.budgetshop.setText("Estimate budget RM"+list.getTotalbudget());
+        viewHolder.budgetshop.setText("Estimate budget RM"+df.format(list.getTotalbudget()));
         viewHolder.placeshop.setText("Shop at "+list.getShopName()+" on "+sfd.format(new Date(t)));
+        viewHolder.statusList.setText("Item checked: "+list.getStatusList());
         String timeAgo = (String) DateUtils.getRelativeTimeSpanString(list.getTimeAdded().getSeconds()*1000);
         viewHolder.dateAdded.setText("Created at "+timeAgo);
 
@@ -279,7 +284,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
     };
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView title, itemqty, dateAdded, txt_option, placeshop, dateshop, budgetshop;
+        public TextView title, itemqty, dateAdded, txt_option, placeshop, dateshop, budgetshop, statusList;
 
         String userId;
         String username;
@@ -293,6 +298,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
             txt_option = itemView.findViewById(R.id.txt_option);
             placeshop = itemView.findViewById(R.id.placetoshop);
             budgetshop = itemView.findViewById(R.id.budgettoshop);
+            statusList = itemView.findViewById(R.id.statusList);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

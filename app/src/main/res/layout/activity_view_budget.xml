@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".viewBudgetActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/frameLayout2"
@@ -84,11 +88,32 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/inputbfrlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout3"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Enter start date and end date to analyse your budget"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/frameLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout3"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/inputbfrlayout"
+        android:visibility="invisible"
         android:orientation="vertical">
 
         <TableLayout
@@ -224,30 +249,19 @@
             android:layout_height="wrap_content">
 
 
-
         </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
-
 
     </LinearLayout>
 
 
 
     <TableLayout
+        android:id="@+id/outputtable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:layout_margin="30dp"
+        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout4">
 
         <!-- Table Heading -->
@@ -260,7 +274,7 @@
                 android:layout_height="wrap_content"
                 android:text="No."
                 android:textColor="@android:color/black"
-                android:padding="5sp"
+                android:padding="4sp"
                 android:textSize="14sp"
                 android:layout_weight="1.5"
                 android:gravity="center_horizontal"
@@ -316,9 +330,7 @@
                 android:padding="5sp"
                 android:textSize="14sp"
                 android:layout_weight="4"
-                android:gravity="center_horizontal"
-                />
-
+                android:gravity="center_horizontal"/>
 
         </TableRow>
 
@@ -329,4 +341,31 @@
 
     </TableLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/graphtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/outputtable"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Relationships between total budget minus expenses for every list"/>
+    </LinearLayout>
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:id="@+id/graph"
+        android:layout_margin="30dp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/graphtitle"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
