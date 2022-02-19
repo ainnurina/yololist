@@ -54,6 +54,15 @@
             android:gravity="center_horizontal" />
 
         <TextView
+            android:id="@+id/table_listbudgetminusexpenses"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5sp"
+            android:textSize="12sp"
+            android:layout_weight="4"
+            android:gravity="center_horizontal" />
+
+        <TextView
             android:id="@+id/table_liststatus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

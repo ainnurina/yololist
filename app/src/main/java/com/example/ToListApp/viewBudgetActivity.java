@@ -30,9 +30,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -183,9 +183,11 @@ public class viewBudgetActivity extends AppCompatActivity {
 
                                 graph.removeAllSeries();
                                 LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+                                PointsGraphSeries<DataPoint> seriesPoint = new PointsGraphSeries<>();
+
                                 int numDataPoint = allList.size();
                                 double calctotalbudget = 0.0, x, y;
-                                int i =0, a=0;
+                                int i =0, a=1;
 
 
                                 for (com.example.ToListApp.model.List list : allList) {
@@ -211,15 +213,20 @@ public class viewBudgetActivity extends AppCompatActivity {
 
                                     i = a;
                                     series.appendData(new DataPoint(i, calctotalbudget), true, 100);
+                                    seriesPoint.appendData(new DataPoint(i, calctotalbudget), true, 100);
                                     a++;
 
                                     totsumbudget = totsumbudget + list.getTotalbudget();
                                     totsumexpenses = totsumexpenses + list.getTotalexpenses();
 
                                 }
+                                seriesPoint.setShape(PointsGraphSeries.Shape.TRIANGLE);
+                                seriesPoint.setSize(12);
+                                seriesPoint.setColor(Color.BLACK);
                                 graph.addSeries(series);
-                                graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
-                                graph.getViewport().setDrawBorder(true);
+                                graph.addSeries(seriesPoint);
+//                                graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+//                                graph.getViewport().setDrawBorder(true);
                                 graphtitle.setVisibility(View.VISIBLE);
                                 graph.setVisibility(View.VISIBLE);
 

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".userprofileActivity">
+    tools:context=".UpdateProfile"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="User Profile"
+                android:text="Update Profile"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -77,11 +77,12 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:background="@color/orange_200"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp">
 
-            <TextView
-                android:id="@+id/profileName"
+            <EditText
+                android:id="@+id/update_profileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -137,11 +138,12 @@
             android:layout_height="39dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:background="@color/orange_200"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp">
 
-            <TextView
-                android:id="@+id/profileEmail"
+            <EditText
+                android:id="@+id/update_profileEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -195,11 +197,12 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:background="@color/orange_200"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp">
 
-            <TextView
-                android:id="@+id/profilePhone"
+            <EditText
+                android:id="@+id/update_profilePhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -213,38 +216,37 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp">
+        android:layout_height="40dp"
+        android:layout_marginLeft="62dp"
+        android:layout_marginTop="36.7dp"
+        android:layout_marginRight="62dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="3dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:id="@+id/linkupdateprofile"
+            <Button
+                android:id="@+id/updateProfileButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Click here to update profile information"
-                android:textAlignment="center"
-                android:textColor="@color/orange_700"
-                android:textSize="16sp"
-                tools:ignore="MissingConstraints" />
+                android:background="@drawable/orange_btn_background"
+                android:text="Update"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
-
 
 </LinearLayout>

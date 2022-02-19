@@ -42,7 +42,7 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         com.example.ToListApp.model.List list = allList.get(position);
 
-
+        float budgetminusexpenses;
         long t = list.getDatePlan().getSeconds() * 1000;
         //change date format
         SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
@@ -53,6 +53,9 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
         holder.table_listname.setText(list.getTitle());
         holder.table_listbudget.setText("RM" + df.format(list.getTotalbudget()));
         holder.table_listexpenses.setText("RM" + df.format(list.getTotalexpenses()));
+
+        budgetminusexpenses = list.getTotalbudget() - list.getTotalexpenses();
+        holder.table_listbudgetminusexpenses.setText("RM" + df.format(budgetminusexpenses));
         //set status & count qty status
         if (list.getTotalbudget() >= list.getTotalexpenses()) {
             holder.table_liststatus.setText("within budget");
@@ -72,7 +75,7 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView table_no, table_listname, table_listbudget, table_listexpenses, table_liststatus, table_listdate;
+        TextView table_no, table_listname, table_listbudget, table_listexpenses, table_liststatus, table_listdate, table_listbudgetminusexpenses;
         TextView sumbudget, sumexpenses, qtylistwithinbudget, qtylistoverbudget, largestlistitle;
 
         public ViewHolder(@NonNull View itemView, Context context) {
@@ -85,6 +88,7 @@ public class budgetAdapter extends RecyclerView.Adapter<budgetAdapter.ViewHolder
             table_listexpenses = itemView.findViewById(R.id.table_listexpenses);
             table_liststatus = itemView.findViewById(R.id.table_liststatus);
             table_listdate = itemView.findViewById(R.id.table_listdate);
+            table_listbudgetminusexpenses = itemView.findViewById(R.id.table_listbudgetminusexpenses);
 
         }
     }

@@ -80,7 +80,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         } else {
 
             //Toast.makeText(MainActivity.this, "Not log in yet",  Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(
+                    MainActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
