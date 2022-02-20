@@ -13,6 +13,11 @@
             android:icon="@drawable/profile_icon"
             android:title="Profile" />
 
+        <item
+            android:id="@+id/nav_listHistory"
+            android:icon="@drawable/profile_icon"
+            android:title="List History" />
+
     </group>
 
     <item android:title="Budget">

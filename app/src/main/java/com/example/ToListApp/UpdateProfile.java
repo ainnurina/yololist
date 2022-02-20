@@ -1,5 +1,6 @@
 package com.example.ToListApp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -64,12 +65,13 @@ public class UpdateProfile extends AppCompatActivity {
         collectionReference.document(documentId)
                 .update("username", input_profileName,
                         "email", input_profileEmail,
-                        "phoneno", input_profileEmail)
+                        "phoneno", input_profilePhone)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(UpdateProfile.this, "Profile Succesfully Updated", Toast.LENGTH_LONG).show();
-                        finish();
+                        Intent intent = new Intent(UpdateProfile.this, userprofileActivity.class);
+                        startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

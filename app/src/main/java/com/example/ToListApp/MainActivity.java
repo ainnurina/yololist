@@ -27,6 +27,7 @@ import com.example.ToListApp.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -72,24 +73,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
-
-        if (mAuth.getCurrentUser() != null) {
-            setContentView(R.layout.activity_main);
-
-
-        } else {
-
-            //Toast.makeText(MainActivity.this, "Not log in yet",  Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(
-                    MainActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
-
+        setContentView(R.layout.activity_main);
 
         allList = new ArrayList<>();
 
-        addlistbutton = (Button)findViewById(R.id.button_add_list2);
+        addlistbutton = (Button) findViewById(R.id.button_add_list2);
 
         addlistbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,11 +114,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         //menu.findItem(R.id.nav_archive).setVisible(false);
 
         //menu
-        if (user != null && firebaseAuth != null)   {
+        if (user != null && firebaseAuth != null) {
             menu.findItem(R.id.nav_login).setVisible(false);
             menu.findItem(R.id.nav_signup).setVisible(false);
         }
-
 
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerlayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -151,8 +138,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     }
 
     @Override
-    public boolean onNavigationItemSelected (@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()){
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
             case R.id.nav_home:
                 break;
 
@@ -164,6 +151,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             case R.id.nav_profile:
                 Intent intent2 = new Intent(MainActivity.this, userprofileActivity.class);
                 startActivity(intent2);
+                break;
+
+            case R.id.nav_listHistory:
+                Intent intent7 = new Intent(MainActivity.this, ListHistoryActivity.class);
+                startActivity(intent7);
                 break;
             //Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
             //break;
@@ -178,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                if (user != null && firebaseAuth != null)   {
+                if (user != null && firebaseAuth != null) {
                     firebaseAuth.signOut();
 
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -187,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 break;
 
             case R.id.nav_table:
-                Intent intent5 = new  Intent(MainActivity.this, viewBudgetActivity.class);
+                Intent intent5 = new Intent(MainActivity.this, viewBudgetActivity.class);
                 startActivity(intent5);
                 break;
 
@@ -201,14 +193,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     protected void onStart() {
         super.onStart();
 
-        collectionReference.orderBy("datePlan", Query.Direction.ASCENDING)
+        collectionReference.whereGreaterThanOrEqualTo("datePlan", new Timestamp(new Date()))
+                .orderBy("datePlan", Query.Direction.ASCENDING)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (!queryDocumentSnapshots.isEmpty())  {
+                        if (!queryDocumentSnapshots.isEmpty()) {
                             allList.clear();
-                            for (QueryDocumentSnapshot lists : queryDocumentSnapshots)  {
+                            for (QueryDocumentSnapshot lists : queryDocumentSnapshots) {
                                 List list = lists.toObject(List.class);
 
                                 if (list.getUserId().equals(YololistApi.getInstance().getUserId())) {
@@ -220,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                             listRecyclerAdapter = new ListRecyclerAdapter(getApplicationContext(), allList, recyclerViewInterface);
                             recyclerView.setAdapter(listRecyclerAdapter);
                             listRecyclerAdapter.notifyDataSetChanged();
-                        } else   {
+                        } else {
                             noListEntry.setVisibility(View.VISIBLE);
                         }
                     }
@@ -239,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     public void onItemClick(int position) {
         Intent intent = new Intent(MainActivity.this, UpdateItemsActivity.class);
 
-        long t = (allList.get(position).getDatePlan().getSeconds())*1000;
+        long t = (allList.get(position).getDatePlan().getSeconds()) * 1000;
         SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
 
         intent.putExtra("Title", allList.get(position).getTitle());
@@ -247,8 +240,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         intent.putExtra("DateAdded", allList.get(position).getTimeAdded());
         intent.putExtra("shopName", allList.get(position).getShopName());
         intent.putExtra("datePlan", sfd.format(new Date(t)));
-        intent.putExtra("totalbudget", ""+allList.get(position).getTotalbudget());
-        intent.putExtra("totalexpenses", ""+allList.get(position).getTotalexpenses());
+        intent.putExtra("totalbudget", "" + allList.get(position).getTotalbudget());
+        intent.putExtra("totalexpenses", "" + allList.get(position).getTotalexpenses());
 
         startActivity(intent);
     }
